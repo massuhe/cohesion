@@ -1,8 +1,19 @@
 /**
  * Mi aplicación Angular
  */
+(function() {
 
-angular.module('miApp',[]);/*
+    'use strict';
+
+    angular
+        .module('miApp', [])
+        .config(config);
+
+    function config() {
+
+    }
+})();
+/*
     .controller('testController',['$scope',function($scope){
         $scope.variableDePrueba = 'funccooo';
 
@@ -11,6 +22,3 @@ angular.module('miApp',[]);/*
         }
 
     }]);*/
-
-
-    require('controllers/controllers.js');

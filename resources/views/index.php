@@ -7,9 +7,8 @@
     <title>A ver che</title>
 </head>
 <body ng-app="miApp">
-    <div ng-controller="testController" class="alert alert-danger">
-        <h1 class="testo">{{variableDePrueba}}</h1>
-        <button ng-click="neneKappa()">Nene Kappa</button>
+    <div ng-controller="TestController as test" class="alert alert-success">
+        <h1 class="testo">{{test.variableDePrueba}}</h1>
     </div>
 
     <script src="../public/js/vendor.js"></script>
