@@ -7,17 +7,16 @@ window._ = require('lodash');
  * code may be modified to fit the specific needs of your application.
  */
 
-window.$ = window.jQuery = require('jquery');
-
-require('bootstrap-sass');
+//window.$ = window.jQuery = require('jquery');
+window.$ = window.jQuery = require('../bower_components/jquery/dist/jquery');
 
 /**
- * Vue is a modern JavaScript library for building interactive web interfaces
- * using reactive data binding and reusable components. Vue's API is clean
- * and simple, leaving you to focus on building your next great project.
+ * Tether para el uso de los tooltips de Bootstrap
  */
+window.Tether = require('../bower_components/tether');
 
-window.Vue = require('vue');
+//require('bootstrap-sass');
+require('../bower_components/bootstrap');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -43,3 +42,9 @@ window.axios.defaults.headers.common = {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+/**
+ * AngularJS 1.X
+ */
+
+require('../bower_components/angular/angular');
