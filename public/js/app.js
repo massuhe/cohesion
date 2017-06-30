@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -96,6 +96,50 @@
 /***/ (function(module, exports) {
 
 /**
+ * Controlador del Navbar
+ */
+(function () {
+
+    'use strict';
+
+    angular.module('miApp').controller('NavController', NavController);
+
+    NavController.$inject = [];
+
+    function NavController() {
+
+        var nc = this;
+        nc.menus = [{
+            nombre: 'Home',
+            subMenus: [],
+            isDropdown: false,
+            active: true,
+            link: '#'
+        }, getDropdownObject('Mi Perfil', [{ nombre: 'Ver Perfil' }, { nombre: 'Rutina' }, { nombre: 'Editar Datos' }, { nombre: 'Cambiar Contraseña' }], 'dropdownMiPerfil'), getDropdownObject('Clases', [{ nombre: 'Listado' }, { nombre: 'Suspender' }], 'dropdownClases'), getDropdownObject('Alumnos', [{ nombre: 'Listado' }, { nombre: 'Alta' }], 'dropdownAlumnos'), getDropdownObject('Finanzas', [{ nombre: 'Registrar Pago' }, { nombre: 'Listar Pagos' }, { nombre: 'Gestionar Movimientos de Dinero' }, { nombre: 'Balance General' }], 'dropdownFinanzas'), getDropdownObject('Sistema', [{ nombre: 'Actividades' }, { nombre: 'Ejercicios' }, { nombre: 'Inventario' }, { nombre: 'Roles' }, { nombre: 'Novedades' }], 'dropdownSistema')];
+
+        var getDropdownObject = getDropdownObject;
+
+        function getDropdownObject(nombre, submenus, idMenu) {
+            return {
+                nombre: nombre,
+                subMenus: submenus,
+                isDropdown: true,
+                active: false,
+                link: '#',
+                id: idMenu,
+                dataToggle: 'dropdown',
+                hasPopup: true,
+                expanded: false
+            };
+        }
+    }
+})();
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+/**
  * Controlador de Prueba
  */
 (function () {
@@ -114,12 +158,6 @@
 })();
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
@@ -127,12 +165,19 @@
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(0);
-__webpack_require__(1);
 __webpack_require__(2);
-module.exports = __webpack_require__(3);
+__webpack_require__(1);
+__webpack_require__(3);
+module.exports = __webpack_require__(4);
 
 
 /***/ })

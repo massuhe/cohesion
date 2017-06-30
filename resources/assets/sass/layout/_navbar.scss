@@ -1,0 +1,83 @@
+.navbar-personalizado {
+  padding-bottom: 0px;
+  padding-top: 3px;
+  box-shadow: 0px 0px 2px #888888;
+}
+
+.gym-logo {
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  position: absolute;
+  border-radius: 100%;
+  left: 50%;
+  top: 25%;
+  display: none;
+}
+
+/**
+  Bucle que genera los estilos para los elementos del menú, así como también los de sus respectivos subítems
+ */
+@for $i from 0 through ($cantidadMenu - 1) {
+  $porcentaje: $i * (100% / ($cantidadMenu - 1));
+  $colorItem: gradient-color-at($naranjaPrimario, $verdePrimario, $porcentaje);
+  .menu-item-#{$i + 1} {
+    margin-right: 3px;
+    margin-left: 3px;
+    display: inline-block;
+    position: relative;
+    &:hover {
+      .menu-item-#{$i + 1}-texto, .dropdown-toggle:after {
+        color: $colorItem;
+      }
+    }
+    &:after {
+      content: '';
+      @include borde-menu(transparent, 0);
+      transition: width .2s ease, background-color .2s ease;
+    }
+    &:hover:after {
+      width: 100%;
+      background: $colorItem;
+    }
+    .menu-item-#{$i + 1}-texto, .dropdown-toggle:after {
+      color: gray;
+      transition: color .2s ease;
+    }
+    &.active {
+      .menu-item-#{$i + 1}-texto {
+        color: $colorItem;
+      }
+      &:after {
+        content: '';
+        @include borde-menu($colorItem, 100%);
+        transition: width .2s ease, background-color .2s ease;
+      }
+    }
+  }
+
+  .menu-dropdown-item-#{$i + 1} {
+    display: inline-block;
+    color: gray;
+    padding: 0px;
+    padding-right: 10px;
+    &:hover{
+      background: initial;
+      color: $colorItem;
+    }
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 20px;
+      width: 0;
+      background: transparent;
+      margin-right: 10px;
+      margin-bottom: -4px;
+      transition: width .2s ease;
+    }
+    &:hover:before {
+      width: 4px;
+      background: $colorItem;
+    }
+  }
+}

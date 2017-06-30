@@ -1,2 +1,9 @@
+// Normalize
+@import "../bower_components/normalize-scss/sass/normalize";
+
 @import "helpers/variables";
+@import "helpers/functions";
+@import "helpers/mixins";
+
 @import "layout/header";
+@import "layout/navbar";

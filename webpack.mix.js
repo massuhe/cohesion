@@ -13,9 +13,10 @@ const {mix} = require('laravel-mix');
 
 mix.browserSync('localhost/ProyectoFinal/public/');
 
-mix.js('resources/assets/js/app.js', 'public/js/vendor.js')
+mix//.js('resources/assets/js/app.js', 'public/js/vendor.js')
     .js(['resources/assets/js/app/app.js',
-        'resources/assets/js/app/controllers/TestController.js'], 'public/js/app.js')
+        'resources/assets/js/app/controllers/TestController.js',
+        'resources/assets/js/app/controllers/NavController.js'], 'public/js/app.js')
     //.copyDirectory('resources/assets/js/app', 'public/js/app')
     .sass('resources/assets/sass/vendor.scss', 'public/css/vendor.css')
     .sass('resources/assets/sass/main.scss', 'public/css/app.css');
