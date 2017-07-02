@@ -153,7 +153,7 @@
     function TestController() {
 
         var vm = this;
-        vm.variableDePrueba = 'Funcó';
+        vm.variableDePrueba = 'Slider';
     }
 })();
 

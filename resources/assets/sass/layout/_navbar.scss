@@ -45,7 +45,7 @@
       transition: color .2s ease;
     }
     &.active {
-      .menu-item-#{$i + 1}-texto {
+      .menu-item-#{$i + 1}-texto, .dropdown-toggle:after {
         color: $colorItem;
       }
       &:after {
