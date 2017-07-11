@@ -14,6 +14,9 @@
     <div ng-controller="TestController as test" class="alert alert-success" style="height:480px">
         <h1>{{test.variableDePrueba}}</h1>
     </div>
+    <div class="container">
+        Cohesion Corporal GYM
+    </div>
 </main>
 <footer></footer>
 <script src="../public/js/vendor.js"></script>
