@@ -1,8 +1,0 @@
-{
-  "name": "ProyectoFinal",
-  "dependencies": {
-    "bootstrap": "4.0",
-    "angular": "^1.6.1",
-    "normalize-scss": "normalize.scss#^7.0.0"
-  }
-}

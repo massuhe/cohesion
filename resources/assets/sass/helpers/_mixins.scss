@@ -1,7 +1,0 @@
-@mixin borde-menu($borderBackground, $borderWidth){
-  display: block;
-  margin: auto;
-  height: 3px;
-  width: $borderWidth;
-  background: $borderBackground;
-}
