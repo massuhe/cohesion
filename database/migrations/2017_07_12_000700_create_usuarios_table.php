@@ -22,7 +22,7 @@ class CreateUsuariosTable extends Migration
             $table->string('domicilio');
             $table->string('telefono');
             $table->string('observaciones');
-            $table->integer('alumno_id')->unsigned()->unique()->nullable();
+            //$table->integer('alumno_id')->unsigned()->unique()->nullable();
             //$table->integer('rol_id');
             $table->boolean('activo');
             $table->softDeletes();
@@ -30,10 +30,10 @@ class CreateUsuariosTable extends Migration
             $table->timestamps();
 
             /* Claves Foraneas */
-            /* Alumnos */
+            /* Alumnos 
             $table->foreign('alumno_id')
                 ->references('id')->on('alumnos')
-                ->onDelete('cascade');
+                ->onDelete('cascade'); */
 
         });
     }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -12,7 +14,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Usuario::class, function (Faker\Generator $faker) {
+$factory->define(Models\Usuario::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -23,8 +25,17 @@ $factory->define(App\Usuario::class, function (Faker\Generator $faker) {
         'domicilio' => $faker->address,
         'telefono' => $faker->phoneNumber,
         'observaciones' => $faker->paragraph($nbSentences = 2, $variableNbSentences = true),
-        'alumno_id' => null,
+        //'alumno_id' => null,
         'activo' => $faker->boolean(80),
         'remember_token' => str_random(10),
+    ];
+});
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(Models\Alumno::class, function (Faker\Generator $faker) {
+
+    return [
+        'usuario_id' => $faker->unique()->numberBetween(1, 10),
+        'tiene_antec_deportivos' => $faker->boolean(50)
     ];
 });
