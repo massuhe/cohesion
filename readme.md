@@ -2,7 +2,7 @@
 
 Para arrancar la jornada de trabajo:
 1. Hago un merge de la rama del Turko (integrador) para traer los cambios
-git merge origin/Turko´
+git merge origin/Turko
 
 Ya trabajé ahora quiero subir lo que hice ¿Qué hago? Sigo los pasos 'Para subir al master'.
 Para subir al master:
