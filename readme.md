@@ -1,10 +1,12 @@
 <img src="https://s-media-cache-ak0.pinimg.com/736x/b9/94/e4/b994e4378507f5624aa90ae7778ded86.jpg">
 
 Para arrancar la jornada de trabajo:
-1. Hago un checkout de mi master local para posicionarme en el, hago un pull del master remoto para traer los cambios.
+1. Hago un checkout de mi master local para posicionarme en el, hago un pull del master remoto para traer los cambios (sobre la carpeta del proyecto hacer click derecho -> git -> Commit Directory -> Commit and Push -> Push).
 2. Hay dos opciones:
     a) Si trabajo siempre en una sola rama: hago un checkout de la rama y hago un merge com mi master local.
     b) Si voy creando ramas por cada funcionalidad: creo una nueva rama a partir del master -> fetch (opcional) -> checkout as new local branch.
+
+Ya trabajé ahora quiero subir lo que hice ¿Qué hago? Sigo los pasos 'Para subir al master'.
 
 Para subir al master:
 1. Ejecuto las pruebas (checkear que pasen Ok).
@@ -14,5 +16,3 @@ Para subir al master:
 5. Hago un merge con mi rama (acá es muy probable que aparezcan conflictos).
 6. Ejecuto las pruebas (checkear que pasen Ok).
 7. Hago un push del master local para que quede remoto.
-
-modico acá.
