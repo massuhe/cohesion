@@ -4,8 +4,14 @@ namespace App\Http\Controllers;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 
+
 class UsuarioController extends Controller
 {
+    public function __construct()
+    {
+       //$this->middleware('jwt.auth', ['except' => ['login']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -61,14 +67,14 @@ class UsuarioController extends Controller
     {
         try {
             $this->validate($request, [
-                'nombre' => 'required',
-                'apellido' => 'required',
+                'email' => 'required',
+                'password' => 'required'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->badRequest();
         }
-        $usuario->nombre = $request->get('nombre');
-        $usuario->apellido = $request->get('apellido');
+        $usuario->email = $request->get('email');
+        $usuario->password = $request->get('password');
         //isset($request->get('apellido')) ? 
         $usuario->save();
         return $this->ok($usuario);
