@@ -13,6 +13,13 @@ use App\Models\Usuario;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::group(['middleware' => 'cors'], function () {
+    Route::post('/login', 'Auth\LoginController@login');
+    Route::post('/usuarioLogueado', 'Auth\LoginController@getAuthenticatedUser');
+});
+
+
 /*
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
