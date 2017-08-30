@@ -30,11 +30,25 @@ class Usuario extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'deleted_at'
     ];
 
     public function alumno()
     {
         return $this->hasOne('App\Models\Alumno');
+    }
+
+    public static function newFromRequest($request)
+    {
+        $usuario = new Usuario();
+        $usuario->nombre = $request->get('nombre');
+        $usuario->apellido = $request->get('apellido');
+        $usuario->email = $request->get('email');
+        $usuario->password = $request->get('password');
+        $usuario->domicilio = $request->get('domicilio');
+        $usuario->telefono = $request->get('telefono');
+        $usuario->observaciones = $request->get('observaciones');
+        $usuario->activo = true;
+        return $usuario;
     }
 }

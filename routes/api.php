@@ -26,6 +26,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });*/
 
 Route::resource('usuarios', 'UsuarioController');
+Route::resource('alumnos', 'AlumnoController');
 
 /*
 Route::get('users', function () {

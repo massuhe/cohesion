@@ -9,8 +9,8 @@ class UsuarioController extends Controller
 {
     public function __construct()
     {
-       $this->middleware('jwt.auth');
-       $this->middleware('jwt.refresh');
+       //$this->middleware('jwt.auth');
+       //$this->middleware('jwt.refresh');
     }
 
     /**
@@ -33,15 +33,7 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         //
-        $usuario = new Usuario();
-        $usuario->nombre = $request->get('nombre');
-        $usuario->apellido = $request->get('apellido');
-        $usuario->email = $request->get('email');
-        $usuario->password = $request->get('password');
-        $usuario->domicilio = $request->get('domicilio');
-        $usuario->telefono = $request->get('telefono');
-        $usuario->observaciones = $request->get('observaciones');
-        $usuario->activo = true;
+        $usuario = Usuario::newFromRequest($request);
         $usuario->save();
         return $this->created($usuario);
     }
@@ -49,12 +41,12 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Usuario  $usuario
+     * @param  \App\Models\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
     public function show(Usuario $usuario)
     {
-        return $usuario;
+        return $this->ok($usuario);
     }
 
     /**

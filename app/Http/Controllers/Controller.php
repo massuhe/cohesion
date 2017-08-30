@@ -15,6 +15,10 @@ class Controller extends BaseController
         return response()->json($message, 400);
     }
 
+    protected function internalError($message = "Internal Error") {
+        return response()->json($message, 500);
+    }
+
     protected function ok($content = '') {
         return response()->json($content, 200);
     }
