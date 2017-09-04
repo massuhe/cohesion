@@ -22,16 +22,4 @@ class Alumno extends Model
      protected $hidden = [
         'usuario_id'
     ];
-
-    public static function newFromRequest($request)
-    {
-        $alumno = new Alumno();
-        $alumno->tiene_antec_deportivos = $request['tieneAntecDeportivos'];
-        return $alumno;
-    }
-
-    public function getAlumno($userId)
-    {
-
-    }
 }

@@ -35,6 +35,6 @@ class Usuario extends Authenticatable
 
     public function alumno()
     {
-        return $this->hasOne('App\Models\Alumno');
+        return $this->hasOne('Business\Usuarios\Models\Alumno');
     }
 }

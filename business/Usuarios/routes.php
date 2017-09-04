@@ -1,4 +1,4 @@
 <?php
 
 Route::resource('usuarios', 'UsuarioController');
-Route::resource('alumnos', 'AlumnoController');
+//Route::resource('alumnos', 'AlumnoController');

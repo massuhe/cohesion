@@ -4,11 +4,14 @@ namespace Business\Usuarios\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Business\Usuarios\Models\Usuario;
+use Optimus\Bruno\EloquentBuilderTrait;
+// use Optimus\Bruno\LaravelController;
 use Business\Usuarios\Services\UsuarioService;
 
 
 class UsuarioController extends Controller
 {
+    use EloquentBuilderTrait;
 
     private $usuarioService;
 
@@ -27,8 +30,10 @@ class UsuarioController extends Controller
     public function index()
     {
         //
-        return $this->ok($this->usuarioService->getAll());
-        //Usuario::all();
+        $resourceOptions = $this->parseResourceOptions();
+        $data = $this->usuarioService->getAll($resourceOptions);
+        $parsedData = $this->parseData($data, $resourceOptions, 'usuarios');
+        return $this->ok($parsedData);
     }
 
     /**
@@ -47,35 +52,28 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Usuario  $usuario
+     * @param  int $usuarioId
      * @return \Illuminate\Http\Response
      */
-    public function show(Usuario $usuario)
+    public function show($usuarioId)
     {
-        return $this->ok($usuario);
+        //
+        $resourceOptions = $this->parseResourceOptions();
+        $data = $this->usuarioService->getById($usuarioId, $resourceOptions);
+        $parsedData = $this->parseData($data, $resourceOptions, 'usuarios');
+        return $this->ok($parsedData);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Usuario  $usuario
+     * @param  int $idUsuario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Usuario $usuario)
+    public function update(Request $request, $idUsuario)
     {
-        try {
-            $this->validate($request, [
-                'email' => 'required',
-                'password' => 'required'
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return $this->badRequest();
-        }
-        $usuario->email = $request->get('email');
-        $usuario->password = $request->get('password');
-        //isset($request->get('apellido')) ? 
-        $usuario->save();
+        $usuario = $this->usuarioService->update($request->all(), $idUsuario);
         return $this->ok($usuario);
     }
 
@@ -85,10 +83,10 @@ class UsuarioController extends Controller
      * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Usuario $usuario)
+    public function destroy($idUsuario)
     {
         //
-        $usuario->delete();
+        $this->usuarioService->delete($idUsuario);
         return $this->okNoContent(204);
     }
 }
