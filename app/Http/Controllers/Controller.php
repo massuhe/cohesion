@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Optimus\Bruno\LaravelController;
 
-class Controller extends BaseController
+class Controller extends LaravelController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected function badRequest($message = "Bad Request") {
         return response()->json($message, 400);
+    }
+
+    protected function internalError($message = "Internal Error") {
+        return response()->json($message, 500);
     }
 
     protected function ok($content = '') {

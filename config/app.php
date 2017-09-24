@@ -176,11 +176,18 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        // App\Providers\RouteServiceProvider::class,
 
+        /*
+         * JWT Auth
+         */
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
-        Barryvdh\Cors\ServiceProvider::class
+        Barryvdh\Cors\ServiceProvider::class,
 
+        /*
+         * Distributed Laravel
+         */
+         Optimus\Api\System\RouteServiceProvider::class
     ],
 
     /*

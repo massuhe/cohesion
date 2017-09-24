@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace Business\Usuarios\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -30,11 +30,11 @@ class Usuario extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'deleted_at'
     ];
 
     public function alumno()
     {
-        return $this->hasOne('App\Models\Alumno');
+        return $this->hasOne('Business\Usuarios\Models\Alumno');
     }
 }
