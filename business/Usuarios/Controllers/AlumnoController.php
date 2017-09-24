@@ -1,6 +1,7 @@
 <?php
 namespace Business\Usuarios\Controllers;
 
+use Business\Usuarios\Models\Usuario;
 use Illuminate\Http\Request;
 use Business\Usuarios\Services\AlumnoService;
 use Business\Usuarios\Requests\AlumnoRequest;
@@ -44,7 +45,7 @@ class AlumnoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Usuario  $usuario
+     * @param  Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
     public function show($id)

@@ -80,7 +80,7 @@ class UsuarioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Usuario  $usuario
+     * @param  Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
     public function destroy($idUsuario)
