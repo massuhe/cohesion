@@ -16,7 +16,7 @@ class CreateAlumnosTable extends Migration
             $table->increments('id');
             $table->integer('usuario_id')->unsigned()->unique();
             $table->boolean('tiene_antec_deportivos');
-            // $table->timestamps();
+             $table->timestamps();
 
             //Claves foráneas
             $table->foreign('usuario_id')

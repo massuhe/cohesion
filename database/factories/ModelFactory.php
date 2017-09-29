@@ -1,6 +1,7 @@
 <?php
 
-use App\Models;
+use Business\Usuarios\Models\Alumno;
+use Business\Usuarios\Models\Usuario;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,7 @@ use App\Models;
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Models\Usuario::class, function (Faker\Generator $faker) {
+$factory->define(Usuario::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -32,7 +33,7 @@ $factory->define(Models\Usuario::class, function (Faker\Generator $faker) {
 });
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Models\Alumno::class, function (Faker\Generator $faker) {
+$factory->define(Alumno::class, function (Faker\Generator $faker) {
 
     return [
         'usuario_id' => $faker->unique()->numberBetween(1, 10),

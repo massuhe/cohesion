@@ -1,4 +1,5 @@
 <?php
+
 namespace Business\Usuarios\Repositories;
 
 use Illuminate\Support\Facades\DB;
@@ -18,8 +19,7 @@ class UsuarioRepository extends Repository
     {
         DB::transaction(function () use ($usuario, $alumno) {
             $usuario->save();
-            if ($alumno !== null)
-                {
+            if ($alumno !== null) {
                 $usuario->alumno()->save($alumno);
                 $usuario->alumno = $alumno;
             }
@@ -29,24 +29,20 @@ class UsuarioRepository extends Repository
 
     public function update($idUsuario, $data)
     {
-        if($alumno = isset($data['alumno']))
-        {
+        if ($alumno = isset($data['alumno'])) {
             $usuario = Usuario::with('alumno')->find($idUsuario);
             $alumno = $usuario->alumno;
             $alumno->tiene_antec_deportivos = $data['alumno']['tieneAntecDeportivos'];
-        }
-        else 
-        {
+        } else {
             $usuario = Usuario::find($idUsuario);
         }
         $this->updateUsuario($usuario, $data);
         DB::transaction(function () use ($usuario, $alumno) {
             $usuario->save();
-            if($alumno)
-            {
+            if ($alumno) {
                 $usuario->alumno()->save($alumno);
             }
-            
+
         });
         return $usuario;
     }
@@ -68,7 +64,7 @@ class UsuarioRepository extends Repository
     {
         // check if value is true
         if ($value) {
-            $alumnos = DB::table('alumnos')->select('usuario_id')->get()->map(function($e){
+            $alumnos = DB::table('alumnos')->select('usuario_id')->get()->map(function ($e) {
                 return $e->usuario_id;
             });
             $query->whereIn('usuarios.id', $alumnos->toArray());

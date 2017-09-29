@@ -11,7 +11,8 @@ class UsuarioFactory {
         $usuario->nombre = $data['nombre'];
         $usuario->apellido = $data['apellido'];
         $usuario->email = $data['email'];
-        $usuario->password = $data['password'];
+//        $usuario->password = $data['password'];
+        $usuario->password = 'contraseña';
         $usuario->domicilio = $data['domicilio'];
         $usuario->telefono = $data['telefono'];
         $usuario->observaciones = $data['observaciones'];

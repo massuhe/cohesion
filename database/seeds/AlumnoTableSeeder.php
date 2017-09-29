@@ -1,7 +1,7 @@
 <?php
 
+use Business\Usuarios\Models\Alumno;
 use Illuminate\Database\Seeder;
-use App\Models\Alumno;
 
 class AlumnoTableSeeder extends Seeder
 {
