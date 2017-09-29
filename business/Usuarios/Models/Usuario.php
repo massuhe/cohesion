@@ -30,11 +30,16 @@ class Usuario extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'deleted_at'
+        'password', 'remember_token', 'deleted_at', 'created_at', 'updated_at'
     ];
 
     public function alumno()
     {
         return $this->hasOne('Business\Usuarios\Models\Alumno');
+    }
+
+    public function isAlumno()
+    {
+        return $this->alumno();
     }
 }
