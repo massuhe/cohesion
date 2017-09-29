@@ -19,6 +19,7 @@ class UsuarioController extends Controller
     {
        //$this->middleware('jwt.auth');
        //$this->middleware('jwt.refresh');
+       $this->middleware('cors');
        $this->usuarioService = $us;
     }
 
@@ -32,8 +33,9 @@ class UsuarioController extends Controller
         //
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->usuarioService->getAll($resourceOptions);
-        $parsedData = $this->parseData($data, $resourceOptions, 'usuarios');
-        return $this->ok($parsedData);
+        $parsedData = $this->parseData($data, $resourceOptions);
+        $selectedData = $this->applySelect($parsedData);
+        return $this->ok($selectedData);
     }
 
     /**
