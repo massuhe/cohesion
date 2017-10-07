@@ -15,8 +15,17 @@ class CreateClasesTable extends Migration
     {
         Schema::create('clases', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('dia_semana');
+            $table->string('hora_inicio');
+            $table->string('hora_fin');
+            $table->integer('actividad_id')->unsigned();
+
+            $table->softDeletes();
             $table->timestamps();
 
+            /* Claves foráneas */
+            /* Actividades */
+            $table->foreign('actividad_id')->references('id')->on('actividades')->onDelete('cascade');
         });
     }
 

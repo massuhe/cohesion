@@ -2,6 +2,7 @@
 
 use Business\Usuarios\Models\Alumno;
 use Business\Usuarios\Models\Usuario;
+use Business\Clases\Models\Clase;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,7 @@ $factory->define(Usuario::class, function (Faker\Generator $faker) {
         'domicilio' => $faker->address,
         'telefono' => $faker->phoneNumber,
         'observaciones' => $faker->paragraph($nbSentences = 2, $variableNbSentences = true),
-        //'alumno_id' => null,
-        'activo' => $faker->boolean(80),
-        'remember_token' => str_random(10),
+        'activo' => $faker->boolean(80)
     ];
 });
 

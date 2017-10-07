@@ -8,7 +8,6 @@ use Optimus\Bruno\EloquentBuilderTrait;
 // use Optimus\Bruno\LaravelController;
 use Business\Usuarios\Services\UsuarioService;
 
-
 class UsuarioController extends Controller
 {
     use EloquentBuilderTrait;

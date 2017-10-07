@@ -16,12 +16,12 @@ class CreateAlumnosTable extends Migration
             $table->increments('id');
             $table->integer('usuario_id')->unsigned()->unique();
             $table->boolean('tiene_antec_deportivos');
-             $table->timestamps();
+            $table->string('observaciones_antec_deportivos')->nullable();
+            $table->string('imagen_perfil')->nullable();
+            $table->timestamps();
 
-            //Claves foráneas
-            $table->foreign('usuario_id')
-                ->references('id')->on('usuarios')
-                ->onDelete('cascade');
+            // Claves foráneas
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
         });
     }
 
