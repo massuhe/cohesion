@@ -19,8 +19,8 @@ class ClaseTableSeeder extends Seeder
             for ($i = $hora; $i < Carbon::parse('22:00'); $i = $i->addMinutes(60)) {
                 $clases[] = [
                     'dia_semana' => $diaSemana,
-                    'hora_inicio' => $i->format('H:i'),
-                    'hora_fin' => $i->copy()->addMinutes(60)->format('H:i'),
+                    'hora_inicio' => $i->copy(),
+                    'hora_fin' => $i->copy()->addMinutes(60),
                     'actividad_id' => 1,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s')

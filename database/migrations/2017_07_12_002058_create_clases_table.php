@@ -16,8 +16,8 @@ class CreateClasesTable extends Migration
         Schema::create('clases', function (Blueprint $table) {
             $table->increments('id');
             $table->string('dia_semana');
-            $table->string('hora_inicio');
-            $table->string('hora_fin');
+            $table->time('hora_inicio');
+            $table->time('hora_fin');
             $table->integer('actividad_id')->unsigned();
 
             $table->softDeletes();

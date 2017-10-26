@@ -18,7 +18,7 @@ class Clase extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     public function actividad()
@@ -29,5 +29,10 @@ class Clase extends Model
     public function alumnos()
     {
         return $this->belongsToMany('Business\Usuarios\Models\Alumno');
+    }
+
+    public function clasesEspecificas()
+    {
+        return $this->hasMany('Business\Clases\Models\ClaseEspecifica', 'descripcion_clase');
     }
 }

@@ -5,19 +5,21 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Business\Clases\Models\Clase;
 use Optimus\Bruno\EloquentBuilderTrait;
-use Business\Usuarios\Services\UsuarioService;
+use Business\Clases\Services\ClaseEspecificaService;
+
 
 class ClaseController extends Controller
 {
     use EloquentBuilderTrait;
 
-    private $usuarioService;
+    private $claseEspecificaService;
 
-    public function __construct()
+    public function __construct(ClaseEspecificaService $ces)
     {
        //$this->middleware('jwt.auth');
        //$this->middleware('jwt.refresh');
        $this->middleware('cors');
+       $this->claseEspecificaService = $ces;
     }
 
     /**
@@ -29,6 +31,19 @@ class ClaseController extends Controller
     {
         //
         return Clase::get();
+    }
+
+    /**
+     * 
+     */
+    public function getClasesEspecificas(Request $request)
+    {
+        //
+        $isAlumno = true;
+        $semana = $request->get('semana');
+        $idActividad = $request->get('actividad');
+        return $this->claseEspecificaService->getClasesByWeekActivity($semana, $idActividad, $isAlumno);
+        
     }
 
     /**
