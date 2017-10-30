@@ -2,9 +2,11 @@
 namespace Business\Clases\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Clase extends Model
 {
+    use SoftDeletes;
     /**
      * The attributes that should be mutated to dates.
      *

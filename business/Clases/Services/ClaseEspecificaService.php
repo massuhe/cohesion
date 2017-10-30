@@ -20,7 +20,7 @@ class ClaseEspecificaService {
     public function getClasesByWeekActivity($week, $idActividad, $isAlumno) {
         $returnObj = [];
         $actividad = $this->actividadRepository->getById($idActividad);
-        $returnObj = $this->getActivityInformation($actividad);
+        // $returnObj = $this->getActivityInformation($actividad);
         $semana = Carbon::createFromFormat('m-d-Y', $week)->setTime(0,0,0);
         $firstDayWeek = ($semana->dayOfWeek == Carbon::MONDAY) ? $semana->copy() : $semana->copy()->previous(Carbon::MONDAY);
         $lastDayWeek = $firstDayWeek->copy()->next(Carbon::SATURDAY)->setTime(23,59,59);
@@ -35,12 +35,12 @@ class ClaseEspecificaService {
     private function getAlumnoInformation($clases) {
         $clasesArr = $clases->filter(function($value, $key){
             return $value->alumnos->first(function($value, $key){
-                return $value->id === 12;
+                return $value->id === 1;
             }) !== null;
         })->map(function($key, $value) {
             return $key->id;
         });
-        return ['clases' => array_values($clasesArr->toArray()), 'puede_recuperar'=> 1];
+        return ['clases' => array_values($clasesArr->toArray()), 'puede_recuperar'=> 0];
     }
 
     private function getActivityInformation($activity) {

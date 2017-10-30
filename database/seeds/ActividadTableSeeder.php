@@ -1,6 +1,7 @@
 <?php
-
 use Business\Actividades\Models\Actividad;
+use Business\Actividades\Models\DiaHorario;
+use Business\Actividades\Models\RangoHorario;
 use Illuminate\Database\Seeder;
 
 class ActividadTableSeeder extends Seeder
@@ -19,23 +20,53 @@ class ActividadTableSeeder extends Seeder
             'cantidad_alumnos_por_clase' => 7,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
-        ],
-        [
-            'nombre' => 'Pilates',
-            'descripcion' => 'Pa que las minitas se pongan fuerte',
-            'duracion' => 60,
-            'cantidad_alumnos_por_clase' => 5,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ],
-        [
-            'nombre' => 'Boxeo',
-            'descripcion' => 'Pa caga a guantazo a la gilada',
-            'duracion' => 60,
-            'cantidad_alumnos_por_clase' => 10,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
         ]];
+        $dias = [
+            [
+                'dia_semana' => 'lunes', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'dia_semana' => 'martes', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'dia_semana' => 'miercoles', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'dia_semana' => 'jueves', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'dia_semana' => 'viernes', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]
+        ];
+        $rangos = [
+            [
+                'hora_desde' => '08:00:00', 'hora_hasta' => '21:00:00', 'dia_horario_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'hora_desde' => '08:00:00', 'hora_hasta' => '21:00:00', 'dia_horario_id' => 2, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'hora_desde' => '11:00:00', 'hora_hasta' => '21:00:00', 'dia_horario_id' => 3, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'hora_desde' => '08:00:00', 'hora_hasta' => '21:00:00', 'dia_horario_id' => 4, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'hora_desde' => '08:00:00', 'hora_hasta' => '20:00:00', 'dia_horario_id' => 5, 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ],
+        ];
         DB::table('actividades')->insert($actividades);
+        DB::table('dias_horarios')->insert($dias);
+        DB::table('rangos_horarios')->insert($rangos);
     }
 }

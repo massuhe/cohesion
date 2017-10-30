@@ -1,18 +1,19 @@
 <?php
+
 namespace Business\Actividades\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Actividad extends Model
+class DiaHorario extends Model
 {
-    protected $table = 'actividades';
+    protected $table = 'dias_horarios';
+
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $dates = ['updated_at','created_at','deleted_at'];
+    protected $dates = ['updated_at','created_at'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -20,11 +21,11 @@ class Actividad extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'id'
     ];
 
-    public function diasHorarios()
+    public function horarios()
     {
-        return $this->hasMany('Business\Actividades\Models\DiaHorario');
+        return $this->hasMany('Business\Actividades\Models\RangoHorario');
     }
 }

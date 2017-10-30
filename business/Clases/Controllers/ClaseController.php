@@ -30,7 +30,7 @@ class ClaseController extends Controller
     public function index()
     {
         //
-        return Clase::get();
+        return $this->ok(Clase::get());
     }
 
     /**
@@ -42,7 +42,7 @@ class ClaseController extends Controller
         $isAlumno = true;
         $semana = $request->get('semana');
         $idActividad = $request->get('actividad');
-        return $this->claseEspecificaService->getClasesByWeekActivity($semana, $idActividad, $isAlumno);
+        return $this->ok($this->claseEspecificaService->getClasesByWeekActivity($semana, $idActividad, $isAlumno));
         
     }
 
