@@ -5,10 +5,9 @@ namespace Business\Actividades\Services;
 use Business\Actividades\Repositories\ActividadRepository;
 use Business\Clases\Repositories\ClaseRepository;
 use Business\Actividades\Factories\ActividadFactory;
-use Business\Actividades\Factories\DiaHorarioFactory;
-use Business\Actividades\Factories\RangoHorarioFactory;
 use Business\Clases\Services\ClaseService;
 use Business\Actividades\Models\Actividad;
+use Business\Actividades\Helpers\DiasHelper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -18,24 +17,21 @@ class ActividadesService {
     private $actividadRepository;
     private $claseRepository;
     private $actividadFactory;
-    private $diaHorarioFactory;
-    private $rangoHorarioFactory;
     private $claseService;
+    private $diasHelper;
 
     public function __construct(
         ActividadRepository $ar,
         ClaseRepository $cr,
-        ActividadFactory $af, 
-        DiaHorarioFactory $dhf, 
-        RangoHorarioFactory $rhf,
-        ClaseService $cs) 
+        ActividadFactory $af,
+        ClaseService $cs,
+        DiasHelper $dh) 
     {
         $this->actividadRepository = $ar;
         $this->claseRepository = $cr;
         $this->actividadFactory = $af;
-        $this->diaHorarioFactory = $dhf;
-        $this->rangoHorarioFactory = $rhf;
         $this->claseService = $cs;
+        $this->diasHelper = $dh;
     }
 
     public function get()
@@ -43,9 +39,14 @@ class ActividadesService {
         return $this->actividadRepository->get();
     }
 
+    public function getListado()
+    {
+        return $this->actividadRepository->getListado();
+    }
+
     public function getActividadesHorasLimites() 
     {
-        $actividades = $this->actividadRepository->get(['includes' => ['diasHorarios', 'diasHorarios.horarios']]);
+        $actividades = $this->actividadRepository->get(['includes' => ['dias_horarios', 'dias_horarios.horarios']]);
         $returnObj = [];
         forEach($actividades as $actividad) {
             $returnObj[] = $this->formatActivityHorasLimites($actividad);
@@ -56,17 +57,7 @@ class ActividadesService {
     public function store($data) 
     {
         $actividad = $this->actividadFactory->createActividad($data);
-        $diasHorarios = [];
-        forEach($data['diasHorarios'] as $diaHorario) {
-            $horarios = [];
-            $dh = $this->diaHorarioFactory->createDiaHorario($diaHorario);
-            forEach($diaHorario['horarios'] as $horario) {
-                $h = $this->rangoHorarioFactory->createRangoHorario($horario);
-                $horarios[] = $h;
-            }
-            $dh->horarios = $horarios;
-            $diasHorarios[] = $dh;
-        }
+        $diasHorarios = $this->diasHelper->generateDiasHorarios($data['diasHorarios']);
         $actividad->dias_horarios = $diasHorarios;
         DB::transaction(function () use ($actividad) {
             $this->actividadRepository->store($actividad);
@@ -76,13 +67,32 @@ class ActividadesService {
         return $actividad;
     }
 
+    public function update($data, $idActividad)
+    {
+        $diasNuevos = $this->diasHelper->generateDiasHorarios($data['diasHorarios']);
+        $data['diasHorarios'] = $diasNuevos;
+        return DB::transaction(function () use ($data, $idActividad) {
+            $actividad = $this->actividadRepository->update($idActividad, $data);
+            $this->claseService->updateClasesActividad($actividad);
+            return $actividad;
+        });
+    }
+
+    public function delete($idActividad)
+    {
+        DB::transaction(function () use ($idActividad) {
+            $this->actividadRepository->delete($idActividad);
+            $this->claseRepository->deleteWhere('actividad_id',$idActividad);
+        });
+    }
+
     private function formatActivityHorasLimites($actividad) 
     {
         $act = [];
         $act['id'] = $actividad->id;
         $act['nombre'] = $actividad->nombre;
         $act['cantidad_alumnos_por_clase'] = $actividad->cantidad_alumnos_por_clase;
-        $horas = $this->getAllHours($actividad->diasHorarios);
+        $horas = $this->getAllHours($actividad->dias_horarios);
         $act['hora_minima'] = $this->getMinHour($horas);
         $act['hora_maxima'] = $this->getMaxHour($horas, $actividad->duracion);
         $act['duracion'] = $actividad->duracion;

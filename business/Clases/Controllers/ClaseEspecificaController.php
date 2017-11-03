@@ -1,25 +1,23 @@
 <?php
+
 namespace Business\Clases\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Business\Clases\Models\Clase;
-use Optimus\Bruno\EloquentBuilderTrait;
+use Business\Clases\Services\ClaseEspecificaService;
 
-
-class ClaseController extends Controller
+class ClaseEspecificaController extends Controller
 {
-    use EloquentBuilderTrait;
 
     private $claseEspecificaService;
 
-    public function __construct()
+    public function __construct(ClaseEspecificaService $ces)
     {
        //$this->middleware('jwt.auth');
        //$this->middleware('jwt.refresh');
        $this->middleware('cors');
+       $this->claseEspecificaService = $ces;
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -28,20 +26,24 @@ class ClaseController extends Controller
     public function index()
     {
         //
-        return $this->ok(Clase::get());
+        $resourceOptions = $this->parseResourceOptions();
+        $data = $this->claseEspecificaService->getAll($resourceOptions);
+        $parsedData = $this->parseData($data, $resourceOptions);
+        $selectedData = $this->applySelect($parsedData);
+        return $this->ok($selectedData);
     }
 
-    // /**
-    //  * 
-    //  */
-    // public function getClasesEspecificas(Request $request)
-    // {
-    //     //
-    //     $isAlumno = true;
-    //     $semana = $request->get('semana');
-    //     $idActividad = $request->get('actividad');
-    //     return $this->ok($this->claseEspecificaService->getClasesByWeekActivity($semana, $idActividad, $isAlumno));
-    // }
+    /**
+     * 
+     */
+    public function getClasesEspecificas(Request $request)
+    {
+        //
+        $isAlumno = true;
+        $semana = $request->get('semana');
+        $idActividad = $request->get('actividad');
+        return $this->ok($this->claseEspecificaService->getClasesByWeekActivity($semana, $idActividad, $isAlumno));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -51,40 +53,40 @@ class ClaseController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $usuarioId
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($claseId)
+    public function show($id)
     {
-
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int $idUsuario
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $idClase)
+    public function update(Request $request, $id)
     {
-
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Usuario  $usuario
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($idClase)
+    public function destroy($id)
     {
-        
+        //
     }
 }

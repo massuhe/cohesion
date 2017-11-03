@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Actividad extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'actividades';
     /**
      * The attributes that should be mutated to dates.
@@ -23,7 +25,7 @@ class Actividad extends Model
         'created_at', 'updated_at'
     ];
 
-    public function diasHorarios()
+    public function dias_horarios()
     {
         return $this->hasMany('Business\Actividades\Models\DiaHorario');
     }

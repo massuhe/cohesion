@@ -29,6 +29,15 @@ class ActividadController extends Controller {
     }
 
     /**
+     * 
+     */
+    public function getListado()
+    {
+        $actividad = $this->actividadesService->getListado();
+        return $actividad;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -39,6 +48,31 @@ class ActividadController extends Controller {
         //
         $actividad = $this->actividadesService->store($request->all());
         return $this->created($actividad);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $idUsuario
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $idActividad)
+    {
+        $actividad = $this->actividadesService->update($request->all(), $idActividad);
+        return $this->ok($actividad);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Usuario  $usuario
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($idActividad)
+    {
+        $this->actividadesService->delete($idActividad);
+        return $this->okNoContent();
     }
 
     /**

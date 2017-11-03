@@ -19,7 +19,7 @@ class Alumno extends Model
      *
      * @var array
      */
-    protected $hidden = ['usuario_id', 'id', 'created_at', 'updated_at'];
+    protected $hidden = ['usuario_id', 'created_at', 'updated_at'];
 
     /** 
      * 

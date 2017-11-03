@@ -54,7 +54,11 @@ class Controller extends LaravelController
         });
         foreach ($b as $c => $v) {
             $f2 = array_keys($v);
-            $data[$c] = collect($data[$c])->only($f2);
+            if(!array_key_exists($f2[0], $data[$c])){
+                $data[$c] = collect($data[$c])->map(function($d) use ($f2) {return collect($d)->only($f2);});
+            } else {
+                $data[$c] = collect($data[$c])->only($f2);
+            }
             $this->algo($data[$c], $v);
         }
     }

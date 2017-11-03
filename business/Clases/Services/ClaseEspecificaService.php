@@ -32,6 +32,11 @@ class ClaseEspecificaService {
         return $returnObj;
     }
 
+    public function getAll($option)
+    {
+        return $this->claseEspecificaRepository->get();
+    }
+
     private function getAlumnoInformation($clases) {
         $clasesArr = $clases->filter(function($value, $key){
             return $value->alumnos->first(function($value, $key){

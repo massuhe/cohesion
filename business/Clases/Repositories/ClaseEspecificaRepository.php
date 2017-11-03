@@ -4,10 +4,14 @@ namespace Business\Clases\Repositories;
 
 use Business\Clases\Models\ClaseEspecifica;
 use Illuminate\Support\Carbon;
+use Optimus\Genie\Repository;
 
-class ClaseEspecificaRepository {
+class ClaseEspecificaRepository extends Repository {
 
-    public function __construct() { }
+    public function getModel()
+    {
+        return new ClaseEspecifica();
+    }
 
     public function getByWeekActivity($firstDayWeek, $lastDayWeek, $activity) 
     {

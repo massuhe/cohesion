@@ -15,7 +15,7 @@ class ClaseTableSeeder extends Seeder
     {
         $actividad = Actividad::with(['diasHorarios', 'diasHorarios.horarios'])->find(1);
         $duracion = $actividad->duracion;
-        $diasHorarios = $actividad->diasHorarios;
+        $diasHorarios = $actividad->dias_horarios;
         $clases = [];
         foreach ($diasHorarios as $diaHorario) {
             $rangosHorarios = $diaHorario->horarios;
