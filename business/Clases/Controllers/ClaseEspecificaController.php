@@ -1,5 +1,4 @@
 <?php
-
 namespace Business\Clases\Controllers;
 
 use Illuminate\Http\Request;
@@ -15,8 +14,8 @@ class ClaseEspecificaController extends Controller
     {
        //$this->middleware('jwt.auth');
        //$this->middleware('jwt.refresh');
-       $this->middleware('cors');
-       $this->claseEspecificaService = $ces;
+        $this->middleware('cors');
+        $this->claseEspecificaService = $ces;
     }
     /**
      * Display a listing of the resource.
@@ -65,6 +64,11 @@ class ClaseEspecificaController extends Controller
     public function show($id)
     {
         //
+        $resourceOptions = $this->parseResourceOptions();
+        $data = $this->claseEspecificaService->getById($id, $resourceOptions);
+        $parsedData = $this->parseData($data, $resourceOptions);
+        $selectedData = $this->applySelect($parsedData);
+        return $this->ok($selectedData);
     }
 
     /**

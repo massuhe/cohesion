@@ -13,7 +13,7 @@ class ClaseTableSeeder extends Seeder
      */
     public function run()
     {
-        $actividad = Actividad::with(['diasHorarios', 'diasHorarios.horarios'])->find(1);
+        $actividad = Actividad::with(['dias_horarios', 'dias_horarios.horarios'])->find(1);
         $duracion = $actividad->duracion;
         $diasHorarios = $actividad->dias_horarios;
         $clases = [];

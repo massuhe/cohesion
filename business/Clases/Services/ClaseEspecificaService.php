@@ -37,6 +37,11 @@ class ClaseEspecificaService {
         return $this->claseEspecificaRepository->get();
     }
 
+    public function getById($id, $resourceOptions)
+    {
+        return $this->claseEspecificaRepository->getById($id, $resourceOptions);
+    }
+
     private function getAlumnoInformation($clases) {
         $clasesArr = $clases->filter(function($value, $key){
             return $value->alumnos->first(function($value, $key){
