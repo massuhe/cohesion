@@ -39,21 +39,10 @@ class ClaseEspecificaController extends Controller
     public function getClasesEspecificas(Request $request)
     {
         //
-        $isAlumno = true;
+        $isAlumno = false;
         $semana = $request->get('semana');
         $idActividad = $request->get('actividad');
         return $this->ok($this->claseEspecificaService->getClasesByWeekActivity($semana, $idActividad, $isAlumno));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -65,6 +54,11 @@ class ClaseEspecificaController extends Controller
     public function show($id)
     {
         //
+        $resourceOptions = $this->parseResourceOptions();
+        $data = $this->claseEspecificaService->getById($id, $resourceOptions);
+        $parsedData = $this->parseData($data, $resourceOptions);
+        $selectedData = $this->applySelect($parsedData);
+        return $this->ok($selectedData);
     }
 
     /**
@@ -74,19 +68,11 @@ class ClaseEspecificaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $idClaseEspecifica)
     {
         //
+        $claseEspecifica = $this->claseEspecificaService->update($request->all(), $idClaseEspecifica);
+        return $this->ok($claseEspecifica);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

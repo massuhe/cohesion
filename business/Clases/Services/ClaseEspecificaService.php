@@ -20,7 +20,6 @@ class ClaseEspecificaService {
     public function getClasesByWeekActivity($week, $idActividad, $isAlumno) {
         $returnObj = [];
         $actividad = $this->actividadRepository->getById($idActividad);
-        // $returnObj = $this->getActivityInformation($actividad);
         $semana = Carbon::createFromFormat('m-d-Y', $week)->setTime(0,0,0);
         $firstDayWeek = ($semana->dayOfWeek == Carbon::MONDAY) ? $semana->copy() : $semana->copy()->previous(Carbon::MONDAY);
         $lastDayWeek = $firstDayWeek->copy()->next(Carbon::SATURDAY)->setTime(23,59,59);
@@ -37,6 +36,26 @@ class ClaseEspecificaService {
         return $this->claseEspecificaRepository->get();
     }
 
+    public function getById($id, $option)
+    {
+        return $this->claseEspecificaRepository->getById($id, $option);
+    }
+
+    public function update($data, $idClaseEspecifica)
+    {
+        $claseEspecifica = $this->claseEspecificaRepository->update($data, $idClaseEspecifica);
+        return $this->formatClaseUpdate($claseEspecifica);
+    }
+
+    private function formatClaseUpdate($claseEspecifica)
+    {
+        $claseEspecificaReturn = $claseEspecifica->toArray();
+        $claseEspecificaReturn['alumnos'] = $claseEspecifica->alumnos->map(function($alumno){
+            return ['id' => $alumno->id, 'asistio' => $alumno->asistencia->asistio];
+        });
+        return $claseEspecificaReturn;
+    }
+
     private function getAlumnoInformation($clases) {
         $clasesArr = $clases->filter(function($value, $key){
             return $value->alumnos->first(function($value, $key){
@@ -46,15 +65,6 @@ class ClaseEspecificaService {
             return $key->id;
         });
         return ['clases' => array_values($clasesArr->toArray()), 'puede_recuperar'=> 0];
-    }
-
-    private function getActivityInformation($activity) {
-        $returnObj = [];
-        $returnObj['cantidad_alumnos_por_clase'] = $activity->cantidad_alumnos_por_clase;
-        $returnObj['hora_minima'] = '08:00:00';
-        $returnObj['hora_maxima'] = '22:00:00';
-        $returnObj['duracion_actividad'] = $activity->duracion;
-        return $returnObj;
     }
 
     private function groupClasesByDay($clases, $isAlumno) {

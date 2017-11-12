@@ -5,6 +5,7 @@ namespace Business\Clases\Repositories;
 use Business\Clases\Models\ClaseEspecifica;
 use Illuminate\Support\Carbon;
 use Optimus\Genie\Repository;
+use Illuminate\Support\Facades\DB;
 
 class ClaseEspecificaRepository extends Repository {
 
@@ -23,5 +24,22 @@ class ClaseEspecificaRepository extends Repository {
                 ['clases.actividad_id', '=', $activity->id]
             ])->get();
             return $clases;
+    }
+
+    public function update($data, $id)
+    {
+        $claseEspecifica = $this->getById($id);
+        $claseEspecifica->suspendida = $data['suspendida'];
+        $claseEspecifica->motivo = $data['motivo'];
+        $alumnos = [];
+        $alumnosNuevos = $data['asistencias'];
+        forEach($alumnosNuevos as $alumno){
+            $alumnos[$alumno['id_alumno']] = ['asistio' => $alumno['asistio']];
+        }
+        return DB::transaction(function () use ($claseEspecifica, $alumnos) {
+            $claseEspecifica->alumnos()->sync($alumnos);
+            $claseEspecifica->save();
+            return $claseEspecifica->load('alumnos');
+        });
     }
 }

@@ -16,7 +16,7 @@ class CreateAsistenciasTable extends Migration
         Schema::create('asistencias', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('asistio');
-            $table->string('justificacion')->nullable();
+            // $table->string('justificacion')->nullable();
             $table->integer('alumno_id')->unsigned();
             $table->integer('clase_especifica_id')->unsigned();
             $table->timestamps();
