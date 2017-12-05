@@ -31,6 +31,17 @@ class ActividadController extends Controller {
     /**
      * 
      */
+    public function show($idActividad)
+    {
+        $resourceOptions = $this->parseResourceOptions();
+        $data = $this->actividadesService->getById($idActividad, $resourceOptions);
+        $parsedData = $this->parseData($data, $resourceOptions);
+        return $this->ok($data);
+    }
+
+    /**
+     * 
+     */
     public function getListado()
     {
         $actividad = $this->actividadesService->getListado();

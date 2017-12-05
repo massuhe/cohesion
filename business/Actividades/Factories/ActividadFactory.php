@@ -9,7 +9,7 @@ class ActividadFactory {
     public function createActividad($data) {
         $actividad = new Actividad();
         $actividad->nombre = $data['nombre'];
-        $actividad->descripcion = $data['descripcion'];
+        $actividad->descripcion = isset($data['descripcion']) ? $data['descripcion'] : null;
         $actividad->duracion = $data['duracion'];
         $actividad->cantidad_alumnos_por_clase = $data['cantidadAlumnosPorClase'];
 

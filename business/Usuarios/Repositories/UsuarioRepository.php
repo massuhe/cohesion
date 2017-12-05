@@ -70,4 +70,12 @@ class UsuarioRepository extends Repository
             $query->whereIn('usuarios.id', $alumnos->toArray());
         }
     }
+
+    public function filterNombreApellido(Builder $query, $method, $clauseOperator, $value, $in)
+    {
+        if ($value) {
+            $rawWhere = "CONCAT(usuarios.nombre, ' ', usuarios.apellido)" . ' LIKE ' . "'%". $value ."%'";
+            $query->whereRaw($rawWhere);
+        }
+    }
 }

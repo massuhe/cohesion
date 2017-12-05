@@ -39,6 +39,11 @@ class ActividadesService {
         return $this->actividadRepository->get();
     }
 
+    public function getById($idActividad, $option)
+    {
+        return $this->actividadRepository->getById($idActividad, $option);
+    }
+
     public function getListado()
     {
         return $this->actividadRepository->getListado();
