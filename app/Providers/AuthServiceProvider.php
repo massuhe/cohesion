@@ -25,6 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('tiene-permiso', function($user, $permiso){
+            $user->load(['rol.permisos']);
+            $permisos = collect($user->rol->permisos->map(function ($p) {
+                return $p->only('nombre');
+            }))->flatten();
+            return $permisos->contains($permiso);
+        });
     }
 }

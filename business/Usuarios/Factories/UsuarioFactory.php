@@ -2,6 +2,7 @@
 namespace Business\Usuarios\Factories;
 
 use Business\Usuarios\Models\Usuario;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioFactory {
 
@@ -12,7 +13,7 @@ class UsuarioFactory {
         $usuario->apellido = $data['apellido'];
         $usuario->email = $data['email'];
 //        $usuario->password = $data['password'];
-        $usuario->password = 'contraseña';
+        $usuario->password = Hash::make('secret');
         $usuario->domicilio = $data['domicilio'];
         $usuario->telefono = $data['telefono'];
         $usuario->observaciones = $data['observaciones'];

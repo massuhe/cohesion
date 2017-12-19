@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Optimus\Bruno\LaravelController;
+use Illuminate\Support\Facades\Gate;
 
 class Controller extends LaravelController
 {
@@ -29,6 +30,11 @@ class Controller extends LaravelController
     protected function created($newObject)
     {
         return response()->json($newObject, 201);
+    }
+
+    protected function forbidden()
+    {
+        return response()->json('No cuenta con los permisos suficientes para ejecutar la acción', 403, ['Authorization']);
     }
 
     protected function applySelect($data)
@@ -79,5 +85,10 @@ class Controller extends LaravelController
             }
         }
         return $return;
+    }
+
+    protected function tiene_permiso($permiso)
+    {
+        return Gate::allows('tiene-permiso', $permiso);
     }
 }

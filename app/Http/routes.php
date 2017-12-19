@@ -1,6 +1,11 @@
 <?php
 
-Route::group(['middleware' => 'cors'], function () {
-    Route::post('/login', 'Auth\LoginController@login');
-    Route::post('/usuarioLogueado', 'Auth\LoginController@getAuthenticatedUser');
+Route::group([
+        // 'middleware' => 'api',
+        'namespace' => 'Auth',
+        //'prefix' => 'auth'
+    ], function () {
+    Route::post('/login', 'LoginController@login');
+    Route::post('logout', 'LoginController@logout');
+    // Route::post('refresh', 'LoginController@refresh');
 });

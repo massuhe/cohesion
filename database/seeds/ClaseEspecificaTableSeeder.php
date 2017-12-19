@@ -4,7 +4,7 @@ use Business\Clases\Models\Clase;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
-class ClaseEspecificaSeeder extends Seeder
+class ClaseEspecificaTableSeeder extends Seeder
 {
     private $addDays = [
         'lunes' => 0,

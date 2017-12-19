@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Usuario;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use JWTAuth;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Http\Request;
 
@@ -20,56 +20,88 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
+     */
 
     public function __construct()
     {
-        $this->middleware('jwt.auth', ['except' => 'login']);
-//       $this->middleware('jwt.refresh');
+        $this->middleware('cors');
+        $this->middleware('auth:api', ['except' => 'login']);
     }
 
+    /**
+     * Get a JWT token via given credentials.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
-        try {
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials']);
-            }
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token']);
+        if ($token = $this->guard()->attempt($credentials)) {
+            return $this->respondWithToken($token);
         }
 
-        return response()->json(compact('token'));
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     /**
-     * Retorna el usuario logueado
+     * Get the authenticated User
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function getAuthenticatedUser()
+    public function me()
     {
-        try {
+        return response()->json($this->guard()->user());
+    }
 
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-            }
+    /**
+     * Log the user out (Invalidate the token)
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        $this->guard()->logout();
 
-        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+        return response()->json(['message' => 'Successfully logged out']);
+    }
 
-            return response()->json(['token_expired'], $e->getStatusCode());
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    // public function refresh()
+    // {
+    //     return $this->respondWithToken($this->guard()->refresh());
+    // }
 
-        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
+        ]);
+    }
 
-            return response()->json(['token_invalid'], $e->getStatusCode());
-
-        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-
-            return response()->json(['token_absent'], $e->getStatusCode());
-
-        }
-
-        // the token is valid and we have found the user via the sub claim
-        return response()->json(compact('user'));
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\Guard
+     */
+    public function guard()
+    {
+        return Auth::guard();
     }
 
 }

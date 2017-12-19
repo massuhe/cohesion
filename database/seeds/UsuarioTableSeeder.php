@@ -13,5 +13,15 @@ class UsuarioTableSeeder extends Seeder
     public function run()
     {
         factory(Usuario::class, 20)->create();
+        Usuario::insert([
+            'email' => 'admin@cohesion.com',
+            'password' => bcrypt('secret'),
+            'nombre' => 'Admin',
+            'apellido' => 'Cohesion',
+            'domicilio' => 'Calle 123',
+            'telefono' => '155201478',
+            'rol_id' => 1,
+            'activo' => true
+        ]);
     }
 }

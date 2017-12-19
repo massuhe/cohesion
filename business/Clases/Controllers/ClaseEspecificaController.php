@@ -12,9 +12,9 @@ class ClaseEspecificaController extends Controller
 
     public function __construct(ClaseEspecificaService $ces)
     {
-       //$this->middleware('jwt.auth');
-       //$this->middleware('jwt.refresh');
         $this->middleware('cors');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->claseEspecificaService = $ces;
     }
     /**
@@ -24,7 +24,9 @@ class ClaseEspecificaController extends Controller
      */
     public function index()
     {
-        //
+        if (!$this->tiene_permiso('VER_CLASES_ESPECIFICAS')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->claseEspecificaService->getAll($resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -37,8 +39,10 @@ class ClaseEspecificaController extends Controller
      */
     public function getClasesEspecificas(Request $request)
     {
-        //
-        $isAlumno = false;
+        $isAlumno = $this->tiene_permiso('VER_LISTADO_CLASES_ESPECIFICAS_ALUMNO');
+        if (!$this->tiene_permiso('VER_LISTADO_CLASES_ESPECIFICAS') && !$isAlumno) {
+            return $this->forbidden();
+        }
         $semana = $request->get('semana');
         $idActividad = $request->get('actividad');
         return $this->ok($this->claseEspecificaService->getClasesByWeekActivity($semana, $idActividad, $isAlumno));
@@ -52,7 +56,9 @@ class ClaseEspecificaController extends Controller
      */
     public function show($id)
     {
-        //
+        if (!$this->tiene_permiso('VER_CLASE_ESPECIFICA')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->claseEspecificaService->getById($id, $resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -69,7 +75,9 @@ class ClaseEspecificaController extends Controller
      */
     public function update(Request $request, $idClaseEspecifica)
     {
-        //
+        if (!$this->tiene_permiso('MODIFICAR_CLASE_ESPECIFICA')) {
+            return $this->forbidden();
+        }
         $claseEspecifica = $this->claseEspecificaService->update($request->all(), $idClaseEspecifica);
         return $this->ok($claseEspecifica);
     }

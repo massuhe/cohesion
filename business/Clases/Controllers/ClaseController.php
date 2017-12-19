@@ -15,9 +15,9 @@ class ClaseController extends Controller
 
     public function __construct()
     {
-       //$this->middleware('jwt.auth');
-       //$this->middleware('jwt.refresh');
-       $this->middleware('cors');
+        $this->middleware('cors');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
     }
 
     /**
@@ -27,7 +27,9 @@ class ClaseController extends Controller
      */
     public function index()
     {
-        //
+        if (!$this->tiene_permiso('VER_CLASES')) {
+            return $this->forbidden();
+        }
         return $this->ok(Clase::get());
     }
 
@@ -51,7 +53,9 @@ class ClaseController extends Controller
      */
     public function store(Request $request)
     {
-
+        if (!$this->tiene_permiso('CREAR_CLASE')) {
+            return $this->forbidden();
+        }
     }
 
     /**
@@ -62,7 +66,9 @@ class ClaseController extends Controller
      */
     public function show($claseId)
     {
-
+        if (!$this->tiene_permiso('VER_CLASE')) {
+            return $this->forbidden();
+        }
     }
 
     /**
@@ -74,7 +80,9 @@ class ClaseController extends Controller
      */
     public function update(Request $request, $idClase)
     {
-
+        if (!$this->tiene_permiso('MODIFICAR_CLASE')) {
+            return $this->forbidden();
+        }
     }
 
     /**
@@ -85,6 +93,8 @@ class ClaseController extends Controller
      */
     public function destroy($idClase)
     {
-        
+        if (!$this->tiene_permiso('ELIMINAR_CLASE')) {
+            return $this->forbidden();
+        }
     }
 }

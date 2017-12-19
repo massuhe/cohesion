@@ -29,7 +29,7 @@ class ClaseEspecifica extends Model
     {
         return $this->belongsToMany('Business\Usuarios\Models\Alumno', 'asistencias')
                     ->as('asistencia')
-                    ->withPivot('asistio', 'justificacion')
+                    // ->withPivot('asistio', 'justificacion')
                     ->using('Business\Clases\Models\Asistencia');
     }
 }

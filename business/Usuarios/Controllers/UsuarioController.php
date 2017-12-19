@@ -16,9 +16,9 @@ class UsuarioController extends Controller
 
     public function __construct(UsuarioService $us)
     {
-       //$this->middleware('jwt.auth');
-       //$this->middleware('jwt.refresh');
-       $this->middleware('cors');
+        $this->middleware('cors');
+       $this->middleware('auth:api');
+       $this->middleware('jwt.refresh');
        $this->usuarioService = $us;
     }
 
@@ -29,7 +29,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
+        if (!$this->tiene_permiso('VER_USUARIOS')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->usuarioService->getAll($resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -45,7 +47,9 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!$this->tiene_permiso('CREAR_USUARIO')) {
+            return $this->forbidden();
+        }
         $usuario = $this->usuarioService->store($request->all());
         return $this->created($usuario);
     }
@@ -58,7 +62,9 @@ class UsuarioController extends Controller
      */
     public function show($usuarioId)
     {
-        //
+        if (!$this->tiene_permiso('VER_USUARIO')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->usuarioService->getById($usuarioId, $resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions, 'usuarios');
@@ -74,6 +80,9 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $idUsuario)
     {
+        if (!$this->tiene_permiso('MODIFICAR_USUARIO')) {
+            return $this->forbidden();
+        }
         $usuario = $this->usuarioService->update($request->all(), $idUsuario);
         return $this->ok($usuario);
     }
@@ -86,7 +95,9 @@ class UsuarioController extends Controller
      */
     public function destroy($idUsuario)
     {
-        //
+        if (!$this->tiene_permiso('ELIMINAR_USUARIO')) {
+            return $this->forbidden();
+        }
         $this->usuarioService->delete($idUsuario);
         return $this->okNoContent(204);
     }

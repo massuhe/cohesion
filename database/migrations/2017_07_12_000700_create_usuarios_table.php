@@ -22,11 +22,14 @@ class CreateUsuariosTable extends Migration
             $table->string('domicilio');
             $table->string('telefono');
             $table->string('observaciones')->nullable();
-            //$table->integer('rol_id');
+            $table->integer('rol_id')->unsigned()->nullable();
             $table->boolean('activo');
 
             $table->softDeletes();
             $table->timestamps();
+
+            // Claves foráneas
+            $table->foreign('rol_id')->references('id')->on('roles')->onDelete('SET NULL');
         });
     }
 

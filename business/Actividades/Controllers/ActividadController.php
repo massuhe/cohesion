@@ -11,9 +11,9 @@ class ActividadController extends Controller {
     private $actividadesService;
 
     public function __construct(ActividadesService $as) {
-        //$this->middleware('jwt.auth');
-        //$this->middleware('jwt.refresh');
         $this->middleware('cors');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->actividadesService = $as;
     }
 
@@ -24,7 +24,9 @@ class ActividadController extends Controller {
      */
     public function index()
     {
-        //
+        if (!$this->tiene_permiso('VER_ACTIVIDADES')) {
+            return $this->forbidden();
+        }
         return $this->ok($this->actividadesService->get());
     }
 
@@ -33,6 +35,9 @@ class ActividadController extends Controller {
      */
     public function show($idActividad)
     {
+        if (!$this->tiene_permiso('VER_ACTIVIDAD')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->actividadesService->getById($idActividad, $resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -44,6 +49,9 @@ class ActividadController extends Controller {
      */
     public function getListado()
     {
+        if (!$this->tiene_permiso('VER_LISTADO_ACTIVIDADES')) {
+            return $this->forbidden();
+        }
         $actividad = $this->actividadesService->getListado();
         return $actividad;
     }
@@ -56,7 +64,9 @@ class ActividadController extends Controller {
      */
     public function store(Request $request)
     {
-        //
+        if (!$this->tiene_permiso('CREAR_ACTIVIDAD')) {
+            return $this->forbidden();
+        }
         $actividad = $this->actividadesService->store($request->all());
         return $this->created($actividad);
     }
@@ -70,6 +80,9 @@ class ActividadController extends Controller {
      */
     public function update(Request $request, $idActividad)
     {
+        if (!$this->tiene_permiso('MODIFICAR_ACTIVIDAD')) {
+            return $this->forbidden();
+        }
         $actividad = $this->actividadesService->update($request->all(), $idActividad);
         return $this->ok($actividad);
     }
@@ -82,6 +95,9 @@ class ActividadController extends Controller {
      */
     public function destroy($idActividad)
     {
+        if (!$this->tiene_permiso('ELIMINAR_ACTIVIDAD')) {
+            return $this->forbidden();
+        }
         $this->actividadesService->delete($idActividad);
         return $this->okNoContent();
     }
@@ -91,7 +107,9 @@ class ActividadController extends Controller {
      */
     public function getActividadesHorasLimites(Request $request)
     {
-        //
+        if (!$this->tiene_permiso('VER_ACTIVIDADES')) {
+            return $this->forbidden();
+        }
         $actividades = $this->actividadesService->getActividadesHorasLimites();
         return $this->ok($actividades);
     }
