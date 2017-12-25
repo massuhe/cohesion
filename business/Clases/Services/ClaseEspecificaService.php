@@ -4,28 +4,45 @@ namespace Business\Clases\Services;
 
 use Business\Clases\Repositories\ClaseEspecificaRepository;
 use Business\Actividades\Repositories\ActividadRepository;
+use Business\Clases\Helpers\ClaseEspecificaHelper;
+use Business\Clases\Validators\ClaseEspecificaValidator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use DateTime;
+use Business\Usuarios\Repositories\AlumnoRepository;
 
-class ClaseEspecificaService {
+class ClaseEspecificaService
+{
 
     private $claseEspecificaRepository;
     private $actividadRepository;
+    private $alumnoRepository;
+    private $claseEspecificaHelper;
+    private $claseEspecificaValidator;
 
-    public function __construct(ClaseEspecificaRepository $cer, ActividadRepository $ar) {
+    public function __construct(
+        ClaseEspecificaRepository $cer,
+        ActividadRepository $ar,
+        ClaseEspecificaHelper $ceh,
+        ClaseEspecificaValidator $cev,
+        AlumnoRepository $alr
+    ) {
         $this->claseEspecificaRepository = $cer;
         $this->actividadRepository = $ar;
+        $this->claseEspecificaHelper = $ceh;
+        $this->claseEspecificaValidator = $cev;
+        $this->alumnoRepository = $alr;
     }
 
-    public function getClasesByWeekActivity($week, $idActividad, $isAlumno) {
-        $returnObj = [];
+    public function getClasesByWeekActivity($week, $idActividad, $isAlumno)
+    {
         $actividad = $this->actividadRepository->getById($idActividad);
-        $semana = Carbon::createFromFormat('m-d-Y', $week)->setTime(0,0,0);
-        $firstDayWeek = ($semana->dayOfWeek == Carbon::MONDAY) ? $semana->copy() : $semana->copy()->previous(Carbon::MONDAY);
-        $lastDayWeek = $firstDayWeek->copy()->next(Carbon::SATURDAY)->setTime(23,59,59);
+        $firstDayWeek = $this->claseEspecificaHelper->getFirstDayOfWeek($week);
+        $lastDayWeek = $this->claseEspecificaHelper->getLastDayOfWeek($firstDayWeek);
         $clases = $this->claseEspecificaRepository->getByWeekActivity($firstDayWeek, $lastDayWeek, $actividad);
-        $returnObj = array_merge($returnObj, ['dias' => $this->groupClasesByDay($clases, $isAlumno)]);
-        if($isAlumno) { // Va a cambiar cuando se tenga implementado el login
+        $returnObj = ['dias' => $this->claseEspecificaHelper->groupClasesByDay($clases, $isAlumno)];
+        if ($isAlumno) {
             $returnObj = array_merge($returnObj, ['alumno' => $this->getAlumnoInformation($clases)]);
         }
         return $returnObj;
@@ -44,58 +61,38 @@ class ClaseEspecificaService {
     public function update($data, $idClaseEspecifica)
     {
         $claseEspecifica = $this->claseEspecificaRepository->update($data, $idClaseEspecifica);
-        return $this->formatClaseUpdate($claseEspecifica);
+        return $this->claseEspecificaHelper->formatClaseUpdate($claseEspecifica);
     }
 
-    private function formatClaseUpdate($claseEspecifica)
+    public function cancelar($idClase)
     {
-        $claseEspecificaReturn = $claseEspecifica->toArray();
-        $claseEspecificaReturn['alumnos'] = $claseEspecifica->alumnos->map(function($alumno){
-            return ['id' => $alumno->id, 'asistio' => $alumno->asistencia->asistio];
+        $idAlumno = $this->getCurrentAlumnoId();
+        $this->claseEspecificaValidator->validateAsisteAClase($idAlumno, $idClase);
+        DB::transaction(function () use ($idAlumno, $idClase) {
+            $this->claseEspecificaRepository->removeAsistencia($idAlumno, $idClase);
+            $this->alumnoRepository->addPosibilidadRecuperar($idAlumno);
         });
-        return $claseEspecificaReturn;
     }
 
-    private function getAlumnoInformation($clases) {
-        $clasesArr = $clases->filter(function($value, $key){
-            return $value->alumnos->first(function($value, $key){
-                return $value->id === 1;
+    private function getAlumnoInformation($clases)
+    {
+        $alumnoId = $this->getCurrentAlumnoId();
+        $clasesArr = $clases->filter(function ($value, $key) use ($alumnoId) {
+            return $value->alumnos->first(function ($value, $key) use ($alumnoId) {
+                return $value->id === $alumnoId;
             }) !== null;
-        })->map(function($key, $value) {
+        })->map(function ($key, $value) {
             return $key->id;
         });
-        return ['clases' => array_values($clasesArr->toArray()), 'puede_recuperar'=> 0];
-    }
-
-    private function groupClasesByDay($clases, $isAlumno) {
-        $daysArray = [];
-        foreach($clases as $clase) {
-            !isset($daysArray[$clase->fecha->dayOfWeek]['fecha']) ? 
-                $daysArray[$clase->fecha->dayOfWeek]['fecha'] = $clase->fecha->format('m-d-Y') : '';
-            $daysArray[$clase->fecha->dayOfWeek]['clases'][] = $this->formatClase($clase, $isAlumno);
-        }
-        return array_values($daysArray);
-    }
-
-    private function formatClase($clase, $isAlumno) {
         return [
-            'id' => $clase->id,
-            'hora_inicio' => $clase->hora_inicio,
-            'alumnos' => $isAlumno ? sizeOf($clase->alumnos) : $this->formatAlumnos($clase->alumnos),
-            'suspendida' => $clase->suspendida,
-            'motivo' => $clase->motivo
+            'clases' => array_values($clasesArr->toArray()),
+            'puede_recuperar' => $this->claseEspecificaRepository->getPuedeRecuperar($alumnoId)
         ];
     }
 
-    private function formatAlumnos($alumnos) {
-        $alumnosArray = [];
-        foreach($alumnos as $alumno) {
-            $alumnosArray[] = [
-                'nombre' => $alumno->usuario->nombre,
-                'apellido' => $alumno->usuario->apellido
-            ];
-        }
-        return $alumnosArray;
+    private function getCurrentAlumnoId()
+    {
+        return Auth::guard()->user()->id;
     }
 
 }

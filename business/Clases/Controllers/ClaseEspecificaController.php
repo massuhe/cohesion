@@ -4,6 +4,7 @@ namespace Business\Clases\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Business\Clases\Services\ClaseEspecificaService;
+use Business\Clases\Models\PosibilidadRecuperar;
 
 class ClaseEspecificaController extends Controller
 {
@@ -13,8 +14,8 @@ class ClaseEspecificaController extends Controller
     public function __construct(ClaseEspecificaService $ces)
     {
         $this->middleware('cors');
-        $this->middleware('auth:api');
-        $this->middleware('jwt.refresh');
+        // $this->middleware('auth:api');
+        // $this->middleware('jwt.refresh');
         $this->claseEspecificaService = $ces;
     }
     /**
@@ -80,6 +81,15 @@ class ClaseEspecificaController extends Controller
         }
         $claseEspecifica = $this->claseEspecificaService->update($request->all(), $idClaseEspecifica);
         return $this->ok($claseEspecifica);
+    }
+
+    public function cancelar(Request $request)
+    {
+        // if (!$this->tiene_permiso('CANCELAR_CLASE')) {
+        //     return $this->forbidden();
+        // }
+        $this->claseEspecificaService->cancelar($request->get('idClase'));
+        return $this->okNoContent();
     }
 
 }

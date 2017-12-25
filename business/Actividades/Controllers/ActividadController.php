@@ -107,7 +107,7 @@ class ActividadController extends Controller {
      */
     public function getActividadesHorasLimites(Request $request)
     {
-        if (!$this->tiene_permiso('VER_ACTIVIDADES')) {
+        if (!$this->tiene_permiso('VER_ACTIVIDADES_HORAS_LIMITE')) {
             return $this->forbidden();
         }
         $actividades = $this->actividadesService->getActividadesHorasLimites();

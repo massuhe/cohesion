@@ -9,12 +9,12 @@ class Controller extends LaravelController
 
     protected function badRequest($message = "Bad Request")
     {
-        return response()->json($message, 400);
+        return response()->json($message, 400, ['Authorization']);
     }
 
     protected function internalError($message = "Internal Error")
     {
-        return response()->json($message, 500);
+        return response()->json($message, 500, ['Authorization']);
     }
 
     protected function ok($content = '')

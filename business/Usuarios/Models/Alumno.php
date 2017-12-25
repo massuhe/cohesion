@@ -28,4 +28,10 @@ class Alumno extends Model
     {
         return $this->belongsTo('Business\Usuarios\Models\Usuario');
     }
+
+    public function posibilidadesRecuperar()
+    {
+        return $this->hasMany('Business\Clases\Models\PosibilidadRecuperar');
+    }
+
 }

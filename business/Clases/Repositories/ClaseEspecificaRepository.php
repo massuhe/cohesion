@@ -6,6 +6,8 @@ use Business\Clases\Models\ClaseEspecifica;
 use Illuminate\Support\Carbon;
 use Optimus\Genie\Repository;
 use Illuminate\Support\Facades\DB;
+use Business\Clases\Models\PosibilidadRecuperar;
+use Business\Clases\Models\Asistencia;
 
 class ClaseEspecificaRepository extends Repository {
 
@@ -42,4 +44,18 @@ class ClaseEspecificaRepository extends Repository {
             return $claseEspecifica->load('alumnos');
         });
     }
+
+    public function getPuedeRecuperar($alumnoId)
+    {
+        return PosibilidadRecuperar::where([
+            ['alumno_id', '=', $alumnoId],
+            ['valido_hasta', '>=', date("Y-m-d")]
+        ])->count();
+    }
+
+    public function removeAsistencia($idAlumno, $idClase) {
+        $clase = $this->getById($idClase);
+        $clase->alumnos()->detach($idAlumno);
+    }
+
 }

@@ -33,7 +33,8 @@ class PermisosTableSeeder extends Seeder
             ['nombre' => 'VER_LISTADO_ACTIVIDADES'],
             ['nombre' => 'CREAR_ACTIVIDAD'],
             ['nombre' => 'MODIFICAR_ACTIVIDAD'],
-            ['nombre' => 'ELIMINAR_ACTIVIDAD']
+            ['nombre' => 'ELIMINAR_ACTIVIDAD'],
+            ['nombre' => 'VER_ACTIVIDADES_HORAS_LIMITE']
         ];
         DB::table('permisos')->insert($permisos);
     }
