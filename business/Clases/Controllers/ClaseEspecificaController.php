@@ -14,8 +14,8 @@ class ClaseEspecificaController extends Controller
     public function __construct(ClaseEspecificaService $ces)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->claseEspecificaService = $ces;
     }
     /**
@@ -85,9 +85,9 @@ class ClaseEspecificaController extends Controller
 
     public function cancelar(Request $request)
     {
-        // if (!$this->tiene_permiso('CANCELAR_CLASE')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('CANCELAR_CLASE')) {
+            return $this->forbidden();
+        }
         $this->claseEspecificaService->cancelar($request->get('idClase'));
         return $this->okNoContent();
     }

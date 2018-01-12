@@ -30,11 +30,16 @@ class Clase extends Model
 
     public function alumnos()
     {
-        return $this->belongsToMany('Business\Usuarios\Models\Alumno');
+        return $this->belongsToMany('Business\Usuarios\Models\Alumno', 'alumnos_clases');
     }
 
     public function clasesEspecificas()
     {
         return $this->hasMany('Business\Clases\Models\ClaseEspecifica', 'descripcion_clase');
+    }
+
+    public function suspensiones()
+    {
+        return $this->hasMany('Business\Clases\Models\Suspension');
     }
 }

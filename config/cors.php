@@ -14,7 +14,7 @@ return [
     'supportsCredentials' => false,
     'allowedOrigins' => ['*'],
     'allowedHeaders' => ['*'],
-    'allowedMethods' => ['GET', 'POST', 'PUT',  'DELETE', 'OPTIONS'], //añadimos OPTIONS
+    'allowedMethods' => ['GET', 'POST', 'PUT',  'DELETE', 'OPTIONS', 'PATCH'], //añadimos OPTIONS
     'exposedHeaders' => ['Authorization'],
     'maxAge' => 0,
     'hosts' => [],

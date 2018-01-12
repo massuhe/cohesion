@@ -68,6 +68,7 @@ class ClaseEspecificaService
     {
         $idAlumno = $this->getCurrentAlumnoId();
         $this->claseEspecificaValidator->validateAsisteAClase($idAlumno, $idClase);
+        $this->claseEspecificaValidator->validateClaseVencida($idClase);
         DB::transaction(function () use ($idAlumno, $idClase) {
             $this->claseEspecificaRepository->removeAsistencia($idAlumno, $idClase);
             $this->alumnoRepository->addPosibilidadRecuperar($idAlumno);
@@ -92,7 +93,7 @@ class ClaseEspecificaService
 
     private function getCurrentAlumnoId()
     {
-        return Auth::guard()->user()->id;
+        return Auth::guard()->user()->alumno->id;
     }
 
 }

@@ -23,23 +23,23 @@ class ActividadTableSeeder extends Seeder
         ]];
         $dias = [
             [
-                'dia_semana' => 'lunes', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'dia_semana' => 'Lunes', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ],
             [
-                'dia_semana' => 'martes', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'dia_semana' => 'Martes', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ],
             [
-                'dia_semana' => 'miercoles', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'dia_semana' => 'Miercoles', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ],
             [
-                'dia_semana' => 'jueves', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'dia_semana' => 'Jueves', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ],
             [
-                'dia_semana' => 'viernes', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
+                'dia_semana' => 'Viernes', 'actividad_id' => 1, 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ]
         ];

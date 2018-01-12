@@ -19,6 +19,7 @@ class ClaseEspecificaRepository extends Repository {
     public function getByWeekActivity($firstDayWeek, $lastDayWeek, $activity) 
     {
         $clases = ClaseEspecifica::with(['descripcionClase','alumnos', 'alumnos.usuario'])
+            ->select(['clases_especificas.*', 'clases.hora_inicio'])
             ->join('clases', 'clases_especificas.descripcion_clase', '=', 'clases.id')
             ->where([
                 ['fecha', '>=', $firstDayWeek],

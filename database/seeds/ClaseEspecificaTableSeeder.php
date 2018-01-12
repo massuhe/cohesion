@@ -7,12 +7,12 @@ use Illuminate\Support\Carbon;
 class ClaseEspecificaTableSeeder extends Seeder
 {
     private $addDays = [
-        'lunes' => 0,
-        'martes' => 1,
-        'miercoles' => 2,
-        'jueves' => 3,
-        'viernes' => 4,
-        'sabado' => 5
+        'Lunes' => 0,
+        'Martes' => 1,
+        'Miercoles' => 2,
+        'Jueves' => 3,
+        'Viernes' => 4,
+        'Sabado' => 5
     ];
     /**
      * Run the database seeds.
@@ -28,7 +28,9 @@ class ClaseEspecificaTableSeeder extends Seeder
             $clasesEspecificas[] = [
                 'fecha' => $today->copy()->addDays($this->addDays[$clase->dia_semana]),
                 'suspendida' => false,
-                'descripcion_clase' => $clase->id
+                'descripcion_clase' => $clase->id,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ];
         }
         DB::table('clases_especificas')->insert($clasesEspecificas);

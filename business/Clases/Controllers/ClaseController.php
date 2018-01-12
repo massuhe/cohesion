@@ -5,19 +5,21 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Business\Clases\Models\Clase;
 use Optimus\Bruno\EloquentBuilderTrait;
-
+use Business\Clases\Services\ClaseService;
 
 class ClaseController extends Controller
 {
     use EloquentBuilderTrait;
 
-    private $claseEspecificaService;
+    private $claseService;
+    
 
-    public function __construct()
+    public function __construct(ClaseService $cs)
     {
         $this->middleware('cors');
-        $this->middleware('auth:api');
-        $this->middleware('jwt.refresh');
+        // $this->middleware('auth:api');
+        // $this->middleware('jwt.refresh');
+        $this->claseService = $cs;
     }
 
     /**
@@ -32,18 +34,6 @@ class ClaseController extends Controller
         }
         return $this->ok(Clase::get());
     }
-
-    // /**
-    //  * 
-    //  */
-    // public function getClasesEspecificas(Request $request)
-    // {
-    //     //
-    //     $isAlumno = true;
-    //     $semana = $request->get('semana');
-    //     $idActividad = $request->get('actividad');
-    //     return $this->ok($this->claseEspecificaService->getClasesByWeekActivity($semana, $idActividad, $isAlumno));
-    // }
 
     /**
      * Store a newly created resource in storage.
@@ -97,4 +87,18 @@ class ClaseController extends Controller
             return $this->forbidden();
         }
     }
+
+    /**
+     * Suspende las clases que cumplan con el set de parámetros pasados
+     */
+    public function suspender(Request $request)
+    {
+        // if (!$this->tiene_permiso('SUSPENDER_CLASES')) {
+        //     return $this->forbidden();
+        // }
+        $setParametros = $request->all();
+        $this->claseService->suspenderClasesRango($setParametros);
+        return $this->okNoContent();
+    }
+
 }

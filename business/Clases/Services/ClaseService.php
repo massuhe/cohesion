@@ -2,20 +2,23 @@
 
 namespace Business\Clases\Services;
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Business\Clases\Factories\ClaseFactory;
 use Business\Clases\Repositories\ClaseRepository;
+use Business\Clases\Helpers\ClaseHelper;
 use DateTime;
 
 class ClaseService {
 
     private $claseRepository;
     private $claseFactory;
+    private $claseHelper;
 
-    public function __construct(ClaseRepository $cr, ClaseFactory $cf) 
+    public function __construct(ClaseRepository $cr, ClaseFactory $cf, ClaseHelper $ch) 
     {
         $this->claseRepository = $cr;
         $this->claseFactory = $cf;
+        $this->claseHelper = $ch;
     }
 
     public function updateClasesActividad($actividad)
@@ -49,6 +52,17 @@ class ClaseService {
             }
         }
         return $clases;
+    }
+
+    public function suspenderClasesRango($setParametros)
+    {
+        $fechaUltimasClasesGeneradas = Carbon::now()->endOfWeek()->addWeeks(2);
+        forEach($setParametros as $set) {
+            $fechaHasta = Carbon::parse($set['fechaHasta']);
+            $motivo = $set['motivo'];
+            $where = $this->claseHelper->getSuspensionWhereQuery($set);
+            $this->claseRepository->suspenderByParametros($where, $motivo, $fechaHasta, $fechaUltimasClasesGeneradas);
+        }
     }
 
     private function getDifClases($clasesViejas, $clasesNuevas)
