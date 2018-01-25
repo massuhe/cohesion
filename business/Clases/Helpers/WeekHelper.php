@@ -17,4 +17,13 @@ class WeekHelper
         $week = $week instanceof Carbon ? $week : Carbon::createFromFormat('m-d-Y', $week)->setTime(0,0,0);
         return $week->copy()->next(Carbon::SATURDAY)->setTime(23,59,59);
     }
+
+    /**
+     * Retorna la fecha de las últimas clases generadas.
+     */
+    public function getLastClases()
+    {
+        return Carbon::now()->endOfWeek()->addWeeks(2);
+    }
+
 }

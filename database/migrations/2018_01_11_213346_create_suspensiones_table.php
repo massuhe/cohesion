@@ -17,7 +17,7 @@ class CreateSuspensionesTable extends Migration
             $table->increments('id');
             $table->integer('clase_id')->unsigned();
             $table->date('fecha_hasta');
-            $table->string('motivo');
+            $table->string('motivo')->nullable();
 
             // Claves foráneas
             $table->foreign('clase_id')->references('id')->on('clases')->onDelete('cascade');

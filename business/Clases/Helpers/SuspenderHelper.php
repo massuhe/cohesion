@@ -19,6 +19,25 @@ class SuspenderHelper
         return $query;
     }
 
+    public function compareSuspensiones($currentSuspensiones, $idClases, $fechaHasta)
+    {
+        $suspensionUpdate = [];
+        $suspensionAdd = [];
+        forEach($idClases as $clase) {
+            $suspension = $currentSuspensiones->first(function($s) use ($clase) {
+                return $s->clase_id === $clase;
+            });
+            if($suspension) {
+                if($suspension->fecha_hasta < $fechaHasta->toDateString()) {
+                    $suspensionUpdate[] = $suspension->id;
+                }
+            } else {
+                $suspensionAdd[] = $clase;
+            }
+        }
+        return ['add' => $suspensionAdd, 'update' => $suspensionUpdate];
+    }
+
     private function getQueryDias($dias)
     {
         $query = '';

@@ -50,7 +50,7 @@ class ClaseEspecificaService
 
     public function getAll($option)
     {
-        return $this->claseEspecificaRepository->get();
+        return $this->claseEspecificaRepository->get($option);
     }
 
     public function getById($id, $option)

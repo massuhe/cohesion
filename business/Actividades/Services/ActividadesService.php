@@ -34,9 +34,9 @@ class ActividadesService {
         $this->diasHelper = $dh;
     }
 
-    public function get()
+    public function getAll($options)
     {
-        return $this->actividadRepository->get();
+        return $this->actividadRepository->get($options);
     }
 
     public function getById($idActividad, $option)

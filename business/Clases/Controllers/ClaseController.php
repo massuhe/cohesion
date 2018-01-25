@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Business\Clases\Models\Clase;
 use Optimus\Bruno\EloquentBuilderTrait;
 use Business\Clases\Services\ClaseService;
+use Business\Clases\Requests\SuspenderClasesRequest;
 
 class ClaseController extends Controller
 {
@@ -91,7 +92,7 @@ class ClaseController extends Controller
     /**
      * Suspende las clases que cumplan con el set de parámetros pasados
      */
-    public function suspender(Request $request)
+    public function suspender(SuspenderClasesRequest $request)
     {
         // if (!$this->tiene_permiso('SUSPENDER_CLASES')) {
         //     return $this->forbidden();

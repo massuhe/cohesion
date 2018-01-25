@@ -12,8 +12,8 @@ class ActividadController extends Controller {
 
     public function __construct(ActividadesService $as) {
         $this->middleware('cors');
-        $this->middleware('auth:api');
-        $this->middleware('jwt.refresh');
+        // $this->middleware('auth:api');
+        // $this->middleware('jwt.refresh');
         $this->actividadesService = $as;
     }
 
@@ -24,10 +24,14 @@ class ActividadController extends Controller {
      */
     public function index()
     {
-        if (!$this->tiene_permiso('VER_ACTIVIDADES')) {
-            return $this->forbidden();
-        }
-        return $this->ok($this->actividadesService->get());
+        // if (!$this->tiene_permiso('VER_ACTIVIDADES')) {
+        //     return $this->forbidden();
+        // }
+        $resourceOptions = $this->parseResourceOptions();
+        $data = $this->actividadesService->getAll($resourceOptions);
+        $parsedData = $this->parseData($data, $resourceOptions);
+        $selectedData = $this->applySelect($parsedData);
+        return $this->ok($selectedData);
     }
 
     /**
