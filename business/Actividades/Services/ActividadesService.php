@@ -3,11 +3,12 @@
 namespace Business\Actividades\Services;
 
 use Business\Actividades\Repositories\ActividadRepository;
-use Business\Clases\Repositories\ClaseRepository;
-use Business\Actividades\Factories\ActividadFactory;
-use Business\Clases\Services\ClaseService;
+use Business\Actividades\Helpers\ActividadHelper;
 use Business\Actividades\Models\Actividad;
-use Business\Actividades\Helpers\DiasHelper;
+use Business\Actividades\Factories\ActividadFactory;
+use Business\Clases\Repositories\ClaseRepository;
+use Business\Clases\Services\ClaseService;
+
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -18,20 +19,20 @@ class ActividadesService {
     private $claseRepository;
     private $actividadFactory;
     private $claseService;
-    private $diasHelper;
+    private $actividadHelper;
 
     public function __construct(
         ActividadRepository $ar,
         ClaseRepository $cr,
         ActividadFactory $af,
         ClaseService $cs,
-        DiasHelper $dh) 
+        ActividadHelper $ah) 
     {
         $this->actividadRepository = $ar;
         $this->claseRepository = $cr;
         $this->actividadFactory = $af;
         $this->claseService = $cs;
-        $this->diasHelper = $dh;
+        $this->actividadHelper = $ah;
     }
 
     public function getAll($options)
@@ -62,11 +63,11 @@ class ActividadesService {
     public function store($data) 
     {
         $actividad = $this->actividadFactory->createActividad($data);
-        $diasHorarios = $this->diasHelper->generateDiasHorarios($data['diasHorarios']);
+        $diasHorarios = $this->actividadHelper->generateDiasHorarios($data['diasHorarios']);
         $actividad->dias_horarios = $diasHorarios;
         DB::transaction(function () use ($actividad) {
             $this->actividadRepository->store($actividad);
-            $clases = $this->claseService->generateClases($actividad);
+            $clases = $this->actividadHelper->generateClases($actividad);
             $this->claseRepository->storeMany($clases);
         });
         return $actividad;
@@ -74,7 +75,7 @@ class ActividadesService {
 
     public function update($data, $idActividad)
     {
-        $diasNuevos = $this->diasHelper->generateDiasHorarios($data['diasHorarios']);
+        $diasNuevos = $this->actividadHelper->generateDiasHorarios($data['diasHorarios']);
         $data['diasHorarios'] = $diasNuevos;
         return DB::transaction(function () use ($data, $idActividad) {
             $actividad = $this->actividadRepository->update($idActividad, $data);

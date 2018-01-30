@@ -24,9 +24,9 @@ class ActividadController extends Controller {
      */
     public function index()
     {
-        // if (!$this->tiene_permiso('VER_ACTIVIDADES')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('VER_ACTIVIDADES')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->actividadesService->getAll($resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);

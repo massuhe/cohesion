@@ -33,7 +33,11 @@ class ClaseController extends Controller
         if (!$this->tiene_permiso('VER_CLASES')) {
             return $this->forbidden();
         }
-        return $this->ok(Clase::get());
+        $resourceOptions = $this->parseResourceOptions();
+        $data = $this->claseService->getAll($resourceOptions);
+        $parsedData = $this->parseData($data, $resourceOptions);
+        $selectedData = $this->applySelect($parsedData);
+        return $this->ok($selectedData);
     }
 
     /**
@@ -94,12 +98,20 @@ class ClaseController extends Controller
      */
     public function suspender(SuspenderClasesRequest $request)
     {
-        // if (!$this->tiene_permiso('SUSPENDER_CLASES')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('SUSPENDER_CLASES')) {
+            return $this->forbidden();
+        }
         $setParametros = $request->all();
         $this->claseService->suspenderClasesRango($setParametros);
         return $this->okNoContent();
+    }
+
+    /**
+     * Se obtienen las clases agrupadas con las asistencias fijas y semanales, agrupadas por actividad
+     */
+    public function getConAsistencias()
+    {
+        return $this->ok($this->claseService->getWithAsistencias());
     }
 
 }

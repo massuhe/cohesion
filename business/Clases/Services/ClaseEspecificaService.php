@@ -60,6 +60,7 @@ class ClaseEspecificaService
 
     public function update($data, $idClaseEspecifica)
     {
+        $this->claseEspecificaValidator->validarMaximoAsistentes($idClaseEspecifica, $data['asistencias']);
         $claseEspecifica = $this->claseEspecificaRepository->update($data, $idClaseEspecifica);
         return $this->claseEspecificaHelper->formatClaseUpdate($claseEspecifica);
     }

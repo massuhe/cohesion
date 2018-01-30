@@ -25,7 +25,7 @@ class Clase extends Model
 
     public function actividad()
     {
-        return $this->hasOne('Business\Actividades\Models\Actividad');
+        return $this->belongsTo('Business\Actividades\Models\Actividad');
     }
 
     public function alumnos()

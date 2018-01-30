@@ -7,16 +7,6 @@ use Illuminate\Support\Facades\Gate;
 class Controller extends LaravelController
 {
 
-    protected function badRequest($message = "Bad Request")
-    {
-        return response()->json($message, 400, ['Authorization']);
-    }
-
-    protected function internalError($message = "Internal Error")
-    {
-        return response()->json($message, 500, ['Authorization']);
-    }
-
     protected function ok($content = '')
     {
         return response()->json($content, 200);
@@ -34,7 +24,7 @@ class Controller extends LaravelController
 
     protected function forbidden()
     {
-        return response()->json('No cuenta con los permisos suficientes para ejecutar la acción', 403, ['Authorization']);
+        return response()->json(['clientMessage' => 'No cuenta con los permisos suficientes para ejecutar la acción'], 403, ['Authorization']);
     }
 
     protected function applySelect($data)
