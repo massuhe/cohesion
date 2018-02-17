@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        \App\Console\Commands\GenerarClases::class
+        \App\Console\Commands\GenerarClases::class,
+        \App\Console\Commands\BorrarClases::class
     ];
 
     /**

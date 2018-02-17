@@ -15,7 +15,7 @@ class AlumnoTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Alumno::class, 10)->create();
+        factory(Alumno::class, 15)->create();
         Usuario::insert([
             'email' => 'massuhe@outlook.com',
             'password' => bcrypt('secret'),
@@ -23,38 +23,16 @@ class AlumnoTableSeeder extends Seeder
             'apellido' => 'Massuh',
             'domicilio' => 'Echague 782',
             'telefono' => '3435106979',
-            'observaciones' => '',
             'rol_id' => 2,
             'activo' => true
         ]);
         Alumno::insert([
             'usuario_id' => DB::getPdo()->lastInsertId(),
-            'tiene_antec_deportivos' => true
+            'tiene_antec_deportivos' => true,
+            'tiene_antec_medicos' => true
         ]);
         $idAlumno = DB::getPdo()->lastInsertId();
-        $asistencias = [
-            [
-                'asistio' => true,
-                'alumno_id' => $idAlumno,
-                'clase_especifica_id' => 1,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
-            ],
-            [
-                'asistio' => true,
-                'alumno_id' => $idAlumno,
-                'clase_especifica_id' => 36,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
-            ],
-            [
-                'asistio' => true,
-                'alumno_id' => $idAlumno,
-                'clase_especifica_id' => 50,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
-            ]
-        ];
-        Asistencia::insert($asistencias);  
+        $idUsersWithAlumno = DB::table('alumnos')->get()->map(function($a){return $a->usuario_id;});
+        Usuario::whereIn('id', $idUsersWithAlumno)->update(['rol_id' => 2]);
     }
 }

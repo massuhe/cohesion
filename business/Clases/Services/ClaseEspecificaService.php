@@ -76,6 +76,17 @@ class ClaseEspecificaService
         });
     }
 
+    public function recuperar($idClase)
+    {
+        $idAlumno = $this->getCurrentAlumnoId();
+        $this->claseEspecificaValidator->validateClaseVencida($idClase);
+        DB::transaction(function () use ($idAlumno, $idClase) {
+            $this->claseEspecificaRepository->addAsistencia($idAlumno, $idClase);
+            $this->alumnoRepository->removePosibilidadRecuperar($idAlumno);
+            $this->claseEspecificaValidator->validarMaximoAsistentes($idClase);
+        });
+    }
+
     private function getAlumnoInformation($clases)
     {
         $alumnoId = $this->getCurrentAlumnoId();

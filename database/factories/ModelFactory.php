@@ -25,17 +25,22 @@ $factory->define(Usuario::class, function (Faker\Generator $faker) {
         'nombre' => $faker->firstName,
         'apellido' => $faker->lastName,
         'domicilio' => $faker->address,
-        'telefono' => $faker->phoneNumber,
-        'observaciones' => $faker->paragraph($nbSentences = 2, $variableNbSentences = true),
+        'telefono' => $faker->randomNumber(9, true),
         'activo' => $faker->boolean(80)
     ];
 });
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Alumno::class, function (Faker\Generator $faker) {
-
+    $tieneAntecDeportivos = $faker->boolean(50);
+    $tieneAntecMedicos = $faker->boolean(20);
+    $obsDeportivos = $tieneAntecDeportivos ? $faker->paragraph($nbSentences = 1, $variableNbSentences = true) : '';
+    $obsMedicos = $tieneAntecMedicos ? $faker->paragraph($nbSentences = 1, $variableNbSentences = true) : '';
     return [
-        'usuario_id' => $faker->unique()->numberBetween(1, 10),
-        'tiene_antec_deportivos' => $faker->boolean(50)
+        'usuario_id' => $faker->unique()->numberBetween(1, 15),
+        'tiene_antec_deportivos' => $tieneAntecDeportivos,
+        'tiene_antec_medicos' => $tieneAntecMedicos,
+        'observaciones_antec_deportivos' => $obsDeportivos,
+        'observaciones_antec_medicos' => $obsMedicos
     ];
 });

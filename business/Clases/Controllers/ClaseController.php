@@ -111,6 +111,9 @@ class ClaseController extends Controller
      */
     public function getConAsistencias()
     {
+        if (!$this->tiene_permiso('VER_CLASES')) {
+            return $this->forbidden();
+        }
         return $this->ok($this->claseService->getWithAsistencias());
     }
 

@@ -5,7 +5,7 @@ namespace Business\Usuarios\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 
-class AlumnoRequest extends FormRequest
+class UsuarioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,16 +28,23 @@ class AlumnoRequest extends FormRequest
             'nombre' => 'required',
             'apellido' => 'required',
             'email' => 'required|email',
-            'password' => 'required',
             'domicilio' => 'required',
-            'telefono' => 'required',
-            'alumno.tieneAntecDeportivos' => 'required'
+            'telefono' => 'required|numeric'
         ];
     }
 
-    public function response(array $errors)
-    { 
-        return new JsonResponse($errors, 422);
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            "required" => "El dato es obligatorio",
+            "email" => "El email no tiene un formato válido",
+            "numeric" => "El teléfono sólo debe contener números"
+        ];
     }
 
 }

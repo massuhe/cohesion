@@ -16,7 +16,7 @@ class UsuarioFactory {
         $usuario->password = Hash::make('secret');
         $usuario->domicilio = $data['domicilio'];
         $usuario->telefono = $data['telefono'];
-        $usuario->observaciones = $data['observaciones'];
+        !isset($data['rol']) ? : $usuario->rol_id =  $data['rol'];
         $usuario->activo = true;
         return $usuario;
     }

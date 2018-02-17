@@ -6,6 +6,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Business\Shared\Exceptions\BusinessException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,13 +47,13 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         // Si es custom exception
-        if ($e instanceof BusinessException) {
+        if ($e instanceof BusinessException || $e instanceof NotFoundHttpException ) {
             // Define the response
             $response = [
                 'errors' => 'Se ha producido un error.',
                 'clientMessage' => $e->getMessage()
             ];
-            $status = 422;
+            $status = $e instanceof BusinessException ? 422 : 404;
             // Return a JSON response with the response array and status code
             return response()->json($response, $status, ['Authorization']);
         }

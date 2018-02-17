@@ -16,11 +16,16 @@ class Alumno extends Model
     /** 
      * 
      */
+    public function clases()
+    {
+        return $this->belongsToMany('Business\Clases\Models\Clase', 'alumnos_clases');
+    }
+
     public function clasesEspecificas()
     {
         return $this->belongsToMany('Business\Clases\Models\ClaseEspecifica', 'asistencias')
             ->as('asistencia')
-            // ->withPivot('asistio', 'justificacion')
+            ->withPivot('asistio')
             ->using('Business\Clases\Models\Asistencia');
     }
 

@@ -13,7 +13,7 @@ class Permiso extends Model {
      *
      * @var array
      */
-    protected $hidden = ['id', 'permisos'];
+    protected $hidden = [];
     
 
 }

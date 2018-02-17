@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Business\Shared\Helpers\ClasesGenerator;
+use Business\Clases\Helpers\ClasesEspecificasGenerator;
 
 class GenerarClases extends Command
 {
@@ -13,7 +13,7 @@ class GenerarClases extends Command
      *
      * @var string
      */
-    protected $signature = 'clases:generar {semanas=0}';
+    protected $signature = 'clases:generar {semanas=0} {actividad=0}';
 
     /**
      * The console command description.
@@ -28,10 +28,10 @@ class GenerarClases extends Command
      *
      * @return void
      */
-    public function __construct(ClasesGenerator $cg)
+    public function __construct(ClasesEspecificasGenerator $ceg)
     {
         parent::__construct();
-        $this->classGenerator = $cg;
+        $this->classGenerator = $ceg;
     }
 
     /**
@@ -43,9 +43,11 @@ class GenerarClases extends Command
     {
         //
         $semanas = intval($this->argument('semanas'));
+        $idActividad = intval($this->argument('actividad'));
         if($semanas < 0) {
             throw new \Exception('El número de semanas no puede ser negativo');
         }
-        $this->classGenerator->generate($semanas);
+        $semana = $this->classGenerator->generate($semanas, $idActividad);
+        echo "Las clases de la semana $semana se han generado correctamente";
     }
 }

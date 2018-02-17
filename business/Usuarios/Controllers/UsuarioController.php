@@ -7,6 +7,7 @@ use Business\Usuarios\Models\Usuario;
 use Optimus\Bruno\EloquentBuilderTrait;
 // use Optimus\Bruno\LaravelController;
 use Business\Usuarios\Services\UsuarioService;
+use Business\Usuarios\Requests\UsuarioRequest;
 
 class UsuarioController extends Controller
 {
@@ -17,8 +18,8 @@ class UsuarioController extends Controller
     public function __construct(UsuarioService $us)
     {
         $this->middleware('cors');
-       $this->middleware('auth:api');
-       $this->middleware('jwt.refresh');
+        // $this->middleware('auth:api');
+        // $this->middleware('jwt.refresh');
        $this->usuarioService = $us;
     }
 
@@ -45,7 +46,7 @@ class UsuarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UsuarioRequest $request)
     {
         if (!$this->tiene_permiso('CREAR_USUARIO')) {
             return $this->forbidden();
@@ -67,7 +68,7 @@ class UsuarioController extends Controller
         }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->usuarioService->getById($usuarioId, $resourceOptions);
-        $parsedData = $this->parseData($data, $resourceOptions, 'usuarios');
+        $parsedData = $this->parseData($data, $resourceOptions);
         return $this->ok($parsedData);
     }
 
@@ -78,7 +79,7 @@ class UsuarioController extends Controller
      * @param  int $idUsuario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $idUsuario)
+    public function update(UsuarioRequest $request, $idUsuario)
     {
         if (!$this->tiene_permiso('MODIFICAR_USUARIO')) {
             return $this->forbidden();

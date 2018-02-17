@@ -12,7 +12,7 @@ class UsuarioTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Usuario::class, 20)->create();
+        factory(Usuario::class, 15)->create();
         Usuario::insert([
             'email' => 'admin@cohesion.com',
             'password' => bcrypt('secret'),

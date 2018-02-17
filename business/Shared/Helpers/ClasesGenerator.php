@@ -18,11 +18,11 @@ class ClasesGenerator
         'Sabado' => 5
     ];
 
-    public function generate($addSemanas)
+    public function generate($addSemanas = 0, $idActividad = 0)
     {
         $semana = $this->getSemana($addSemanas);
         $this->checkNoExistenClasesEspecificas($semana);
-        $clases = Clase::all();
+        $clases = $idActividad === 0 ? Clase::all() : Clase::where('actividad_id', $idActividad)->get();
         $clasesEspecificas = [];
         foreach($clases as $clase) {
             $nuevaClase = new ClaseEspecifica();
@@ -35,6 +35,15 @@ class ClasesGenerator
             $nuevaClase->alumnos()->attach($this->getAlumnos($clase->alumnos));
         }
         echo "Las clases de la semana $semana se generaron correctamente";
+    }
+
+    public function borrar($addSemanas = 0, $idActividad = 0)
+    {
+        $semana = $this->getSemana($addSemanas);
+        $clases = $idActividad === 0 ? Clase::withTrashed()->get() : Clase::withTrashed()->where('actividad_id', $idActividad)->get();
+        $idClases = $clases->map(function ($c) { return $c->id;});
+        ClaseEspecifica::whereIn('descripcion_clase', $idClases)->where('fecha', '>=', $semana)->delete();
+        echo "Las clases de la semana $semana se borraron correctamente";
     }
 
     private function getSemana($addSemanas)

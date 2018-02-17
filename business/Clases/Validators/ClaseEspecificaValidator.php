@@ -37,10 +37,16 @@ class ClaseEspecificaValidator
         }
     }
 
-    public function validarMaximoAsistentes($idClaseEspecifica, $asistencias)
+    public function validarMaximoAsistentes($claseEspecifica, $asistencias = [])
     {
-        $actividad = ClaseEspecifica::find($idClaseEspecifica)->descripcionClase->actividad;
-        if(sizeOf($asistencias) > $actividad->cantidad_alumnos_por_clase) {
+        if ($claseEspecifica instanceof ClaseEspecifica) {
+            $actividad = $claseEspecifica->descripcionClase->actividad;
+            $asistenciasCompare = $claseEspecifica->alumnos;
+        } else {
+            $actividad = ClaseEspecifica::find($claseEspecifica)->descripcionClase->actividad;
+            $asistenciasCompare = $asistencias;
+        }
+        if (sizeOf($asistenciasCompare) > $actividad->cantidad_alumnos_por_clase) {
             throw new MaximoAsistentesSuperadoException();
         }
     }

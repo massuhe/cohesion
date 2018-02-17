@@ -21,12 +21,25 @@ class ClaseRepository extends Repository
         return Clase::insert($clases);
     }
 
+    public function restoreMany($clases)
+    {
+        $ids = array_column($clases, 'id');
+        return Clase::whereIn('id', $ids)->restore();
+    }
+
     public function deleteMany($clases)
     {
         $ids = $clases->map(function ($v, $k) {
             return $v->id;
         })->toArray();
         return Clase::destroy($ids);
+    }
+
+    public function getByActividad($idActividad, $includeDeleted = false)
+    {
+        $query= $includeDeleted ? Clase::withTrashed() : Clase;
+        $clases = $query->where('actividad_id', $idActividad)->get();
+        return $clases;
     }
 
     public function suspenderByParametros($accion, $conditions, $motivo, $fechaDesde, $fechaHasta, $fechaUltimasClasesGeneradas)
@@ -41,7 +54,7 @@ class ClaseRepository extends Repository
     public function getWithAsistencias($fechaHoraActual)
     {
         $queryMaximaAsistenciaSemanal = 
-        "SELECT ce.descripcion_clase id, COUNT(*) asistencia_semana
+        "SELECT DISTINCT ce.descripcion_clase id, COUNT(*) asistencia_semana
          FROM clases c, clases_especificas ce
          LEFT JOIN asistencias asi ON asi.clase_especifica_id = ce.id
          WHERE c.id = ce.descripcion_clase
@@ -69,7 +82,9 @@ class ClaseRepository extends Repository
          FROM clases cla
          LEFT JOIN ($queryMaximaAsistenciaSemanal) AS cla1 ON cla.id = cla1.id
          LEFT JOIN ($queryAsistenciasFijas) AS cla2 ON cla.id = cla2.id
-         JOIN actividades a ON a.id = cla.actividad_id";
+         JOIN actividades a ON a.id = cla.actividad_id
+         WHERE cla.deleted_at IS NULL
+         AND a.deleted_at IS NULL";
         $data = DB::select(DB::raw($queryFinal));
         return $data;
     }

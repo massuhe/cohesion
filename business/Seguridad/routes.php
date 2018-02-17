@@ -1,3 +1,4 @@
 <?php
 
-Route::get('caca', 'RolesController@caca');
+Route::resource('roles', 'RolesController');
+Route::get('permisos', 'RolesController@getPermisos');

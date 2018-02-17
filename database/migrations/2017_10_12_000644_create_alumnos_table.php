@@ -17,6 +17,8 @@ class CreateAlumnosTable extends Migration
             $table->integer('usuario_id')->unsigned()->unique();
             $table->boolean('tiene_antec_deportivos');
             $table->string('observaciones_antec_deportivos')->nullable();
+            $table->boolean('tiene_antec_medicos');
+            $table->string('observaciones_antec_medicos')->nullable();
             $table->string('imagen_perfil')->nullable();
             $table->timestamps();
 

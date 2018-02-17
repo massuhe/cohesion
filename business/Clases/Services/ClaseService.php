@@ -8,13 +8,13 @@ use Business\Clases\Repositories\ClaseRepository;
 use Business\Clases\Helpers\ClaseHelper;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use Business\Clases\Repositories\ClaseEspecificaRepository;
 
 class ClaseService {
 
     private $claseRepository;
     private $claseFactory;
     private $claseHelper;
-    private $claseValidator;
 
     public function __construct(ClaseRepository $cr, ClaseFactory $cf, ClaseHelper $ch) 
     {
@@ -30,11 +30,12 @@ class ClaseService {
 
     public function updateClasesActividad($actividad)
     {
-        $clasesViejas = $this->claseRepository->getWhere('actividad_id', $actividad->id);
+        $clasesViejas = $this->claseRepository->getByActividad($actividad->id, true);
         $actividad->load('dias_horarios');
         $clasesNuevas = collect($this->claseHelper->generateClases($actividad));
         $dif = $this->claseHelper->getDifClases($clasesViejas, $clasesNuevas);
-        $this->claseRepository->storeMany($dif['clasesAgregar']->toArray());
+        $this->claseRepository->storeMany($dif['clasesAgregar']);
+        $this->claseRepository->restoreMany($dif['clasesRestore']);
         $this->claseRepository->deleteMany($dif['clasesBorrar']);
     }
 

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Validator;
+use Business\Usuarios\Models\Usuario;
 
 class AppServiceProvider extends ServiceProvider
 {

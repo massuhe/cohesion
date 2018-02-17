@@ -22,7 +22,7 @@ class ClaseEspecifica extends Model
 
     public function descripcionClase()
     {
-        return $this->belongsTo('Business\Clases\Models\Clase', 'descripcion_clase');
+        return $this->belongsTo('Business\Clases\Models\Clase', 'descripcion_clase')->withTrashed();
     }
 
     public function alumnos()

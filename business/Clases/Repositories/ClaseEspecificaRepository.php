@@ -2,10 +2,10 @@
 
 namespace Business\Clases\Repositories;
 
-use Business\Clases\Models\ClaseEspecifica;
-use Illuminate\Support\Carbon;
-use Optimus\Genie\Repository;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Optimus\Genie\Repository;
+use Business\Clases\Models\ClaseEspecifica;
 use Business\Clases\Models\PosibilidadRecuperar;
 use Business\Clases\Models\Asistencia;
 
@@ -57,6 +57,23 @@ class ClaseEspecificaRepository extends Repository {
     public function removeAsistencia($idAlumno, $idClase) {
         $clase = $this->getById($idClase);
         $clase->alumnos()->detach($idAlumno);
+    }
+
+    public function addAsistencia($idAlumno, $idClase) {
+        $clase = $this->getById($idClase);
+        $now = Carbon::now();
+        $clase->alumnos()->attach([$idAlumno => [
+            'asistio' => true, 
+            'created_at' => $now,
+            'updated_at' => $now]]
+        );
+    }
+
+    public function deleteByActividad($idActividad)
+    {
+        ClaseEspecifica::whereHas('descripcionClase', function($query) use ($idActividad) {
+            $query->where('actividad_id', $idActividad);
+        })->delete();
     }
 
 }

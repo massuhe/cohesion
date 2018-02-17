@@ -4,7 +4,7 @@ namespace Business\Clases\Helpers;
 
 use Carbon\Carbon;
 
-class ClaseGeneratorHelper 
+class ClasesGenerator
 {
 
     public function generateClases($actividad)
@@ -32,14 +32,7 @@ class ClaseGeneratorHelper
 
     public function getDifClases($clasesViejas, $clasesNuevas)
     {
-        $clasesAgregar = $clasesNuevas->filter(function($v, $k) use ($clasesViejas){
-            return $clasesViejas->first(function($vv, $kv) use ($v) {
-                $khe = $v['hora_inicio']->format('H:i:s');
-                return $vv->dia_semana === $v['dia_semana']
-                    && $vv->hora_inicio === $v['hora_inicio']->format('H:i:s') 
-                    && $vv->hora_fin === $v['hora_fin']->format('H:i:s');
-            }) === null;
-        });
+        $response = $this->getClasesAgregarRestore($clasesViejas, $clasesNuevas);
         $clasesBorrar = $clasesViejas->filter(function($v1, $k1) use ($clasesNuevas){
             return $clasesNuevas->first(function($vn, $kn) use ($v1) {
                 return $vn['dia_semana'] === $v1->dia_semana
@@ -47,6 +40,25 @@ class ClaseGeneratorHelper
                     && $vn['hora_fin']->format('H:i:s') === $v1->hora_fin;
             }) === null;
         });
-        return ['clasesAgregar' => $clasesAgregar, 'clasesBorrar' => $clasesBorrar];
+        return array_merge($response, ['clasesBorrar' => $clasesBorrar]);
+    }
+
+    private function getClasesAgregarRestore($clasesViejas, $clasesNuevas)
+    {
+        $clasesAgregar = $clasesRestore = [];
+        forEach($clasesNuevas as $clase) {
+            $c = $clasesViejas->first(function($vv, $kv) use ($clase) {
+                    return $vv->dia_semana === $clase['dia_semana']
+                        && $vv->hora_inicio === $clase['hora_inicio']->format('H:i:s') 
+                        && $vv->hora_fin === $clase['hora_fin']->format('H:i:s');
+                });
+            if (!$c) {
+                $clasesAgregar[] = $clase;
+            }
+            if($c && $c->trashed()) {
+                $clasesRestore[] = $c;
+            }
+        }
+        return ['clasesAgregar' => $clasesAgregar, 'clasesRestore' => $clasesRestore];
     }
 }

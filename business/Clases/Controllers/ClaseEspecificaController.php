@@ -14,8 +14,8 @@ class ClaseEspecificaController extends Controller
     public function __construct(ClaseEspecificaService $ces)
     {
         $this->middleware('cors');
-        $this->middleware('auth:api');
-        $this->middleware('jwt.refresh');
+        // $this->middleware('auth:api');
+        // $this->middleware('jwt.refresh');
         $this->claseEspecificaService = $ces;
     }
     /**
@@ -57,9 +57,9 @@ class ClaseEspecificaController extends Controller
      */
     public function show($id)
     {
-        if (!$this->tiene_permiso('VER_CLASE_ESPECIFICA')) {
-            return $this->forbidden();
-        }
+        // if (!$this->tiene_permiso('VER_CLASE_ESPECIFICA')) {
+        //     return $this->forbidden();
+        // }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->claseEspecificaService->getById($id, $resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -83,6 +83,9 @@ class ClaseEspecificaController extends Controller
         return $this->ok($claseEspecifica);
     }
 
+    /**
+     * Cancela una clase asignada. 
+     */
     public function cancelar(Request $request)
     {
         if (!$this->tiene_permiso('CANCELAR_CLASE')) {
@@ -90,6 +93,18 @@ class ClaseEspecificaController extends Controller
         }
         $this->claseEspecificaService->cancelar($request->get('idClase'));
         return $this->okNoContent();
+    }
+
+    /**
+     * Recupera la clase.
+     */
+    public function recuperar(Request $request)
+    {
+        // if (!$this->tiene_permiso('RECUPERAR_CLASE')) {
+        //     return $this->forbidden();
+        // }
+        $this->claseEspecificaService->recuperar($request->get('idClase'));
+        return $this->okNoContent(); 
     }
 
 }

@@ -46,10 +46,10 @@ class Usuario extends Authenticatable implements JWTSubject
         return $this->belongsTo('Business\Seguridad\Models\Rol');
     }
 
-    public function isAlumno()
-    {
-        return $this->alumno();
-    }
+    // public function isAlumno()
+    // {
+    //     return $this->alumno();
+    // }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

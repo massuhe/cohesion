@@ -7,6 +7,7 @@ use Business\Actividades\Helpers\ActividadHelper;
 use Business\Actividades\Models\Actividad;
 use Business\Actividades\Factories\ActividadFactory;
 use Business\Clases\Repositories\ClaseRepository;
+use Business\Clases\Repositories\ClaseEspecificaRepository;
 use Business\Clases\Services\ClaseService;
 
 use Illuminate\Support\Carbon;
@@ -17,6 +18,7 @@ class ActividadesService {
 
     private $actividadRepository;
     private $claseRepository;
+    private $claseEspecificaRepository;
     private $actividadFactory;
     private $claseService;
     private $actividadHelper;
@@ -24,12 +26,14 @@ class ActividadesService {
     public function __construct(
         ActividadRepository $ar,
         ClaseRepository $cr,
+        ClaseEspecificaRepository $cer,
         ActividadFactory $af,
         ClaseService $cs,
         ActividadHelper $ah) 
     {
         $this->actividadRepository = $ar;
         $this->claseRepository = $cr;
+        $this->claseEspecificaRepository = $cer;
         $this->actividadFactory = $af;
         $this->claseService = $cs;
         $this->actividadHelper = $ah;
@@ -42,7 +46,11 @@ class ActividadesService {
 
     public function getById($idActividad, $option)
     {
-        return $this->actividadRepository->getById($idActividad, $option);
+        $actividad = $this->actividadRepository->getById($idActividad, $option);
+        if(!$actividad) {
+            abort(404, 'No se ha encontrado la actividad.');
+        }
+        return $actividad;
     }
 
     public function getListado()
@@ -69,6 +77,7 @@ class ActividadesService {
             $this->actividadRepository->store($actividad);
             $clases = $this->actividadHelper->generateClases($actividad);
             $this->claseRepository->storeMany($clases);
+            $this->actividadHelper->generate(0, $actividad->id);
         });
         return $actividad;
     }
@@ -80,7 +89,8 @@ class ActividadesService {
         return DB::transaction(function () use ($data, $idActividad) {
             $actividad = $this->actividadRepository->update($idActividad, $data);
             $this->claseService->updateClasesActividad($actividad);
-            return $actividad;
+            $this->actividadHelper->borrar(0, $idActividad);
+            $this->actividadHelper->generate(0, $idActividad);
         });
     }
 
@@ -89,6 +99,7 @@ class ActividadesService {
         DB::transaction(function () use ($idActividad) {
             $this->actividadRepository->delete($idActividad);
             $this->claseRepository->deleteWhere('actividad_id',$idActividad);
+            $this->claseEspecificaRepository->deleteByActividad($idActividad);
         });
     }
 

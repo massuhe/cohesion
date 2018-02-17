@@ -15,7 +15,7 @@ class ActividadTableSeeder extends Seeder
     {
         $actividades = [[
             'nombre' => 'Musculacion',
-            'descripcion' => 'Pa levantar minitas',
+            'descripcion' => 'Actividad física encaminada a hipertrofiar el músculo.',
             'duracion' => 60,
             'cantidad_alumnos_por_clase' => 7,
             'created_at' => date('Y-m-d H:i:s'),

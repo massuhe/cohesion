@@ -18,9 +18,10 @@ class ActividadRepository extends Repository
     public function getListado()
     {
         return Actividad::select('actividades.id', 'actividades.nombre', 'actividades.duracion', 
-            'actividades.cantidad_alumnos_por_clase', DB::raw('count(alumnos_clases.alumno_id) as total_alumnos'))
+            'actividades.cantidad_alumnos_por_clase', DB::raw('count(distinct alumnos_clases.alumno_id) as total_alumnos'))
                 ->leftJoin('clases', 'actividades.id', '=', 'clases.actividad_id')
                 ->leftJoin('alumnos_clases', 'clases.id', '=', 'alumnos_clases.clase_id')
+                ->whereNull('clases.deleted_at')
                 ->groupBy('actividades.id', 'actividades.nombre', 'actividades.duracion', 
                     'actividades.cantidad_alumnos_por_clase')
                 ->get();
