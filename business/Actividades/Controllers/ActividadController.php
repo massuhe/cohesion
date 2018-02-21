@@ -12,8 +12,8 @@ class ActividadController extends Controller {
 
     public function __construct(ActividadesService $as) {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->actividadesService = $as;
     }
 

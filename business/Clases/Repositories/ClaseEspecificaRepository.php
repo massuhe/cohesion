@@ -57,6 +57,7 @@ class ClaseEspecificaRepository extends Repository {
     public function removeAsistencia($idAlumno, $idClase) {
         $clase = $this->getById($idClase);
         $clase->alumnos()->detach($idAlumno);
+        $clase->touch();
     }
 
     public function addAsistencia($idAlumno, $idClase) {
@@ -67,6 +68,7 @@ class ClaseEspecificaRepository extends Repository {
             'created_at' => $now,
             'updated_at' => $now]]
         );
+        $clase->touch();
     }
 
     public function deleteByActividad($idActividad)

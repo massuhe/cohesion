@@ -18,8 +18,8 @@ class UsuarioController extends Controller
     public function __construct(UsuarioService $us)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
        $this->usuarioService = $us;
     }
 

@@ -4,5 +4,10 @@
 Homestead.json
 Homestead.yaml
 .env
+.env.production
 npm-debug.log
-/public/images
+/public/images
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

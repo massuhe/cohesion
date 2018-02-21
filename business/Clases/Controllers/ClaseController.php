@@ -18,8 +18,8 @@ class ClaseController extends Controller
     public function __construct(ClaseService $cs)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->claseService = $cs;
     }
 

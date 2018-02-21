@@ -15,8 +15,8 @@ class ImageController extends Controller
     public function __construct(ImageService $is)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
        $this->imageService = $is;
     }
 

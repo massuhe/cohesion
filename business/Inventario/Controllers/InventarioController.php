@@ -15,8 +15,8 @@ class InventarioController extends Controller
     public function __construct(InventarioService $is)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
        $this->inventarioService = $is;
     }
 
@@ -27,9 +27,9 @@ class InventarioController extends Controller
      */
     public function index()
     {
-        // if (!$this->tiene_permiso('VER_ITEMS_INVENTARIO')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('VER_ITEMS_INVENTARIO')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->inventarioService->getAll($resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -45,9 +45,9 @@ class InventarioController extends Controller
      */
     public function store(InventarioRequest $request)
     {
-        // if (!$this->tiene_permiso('CREAR_ITEM_INVENTARIO')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('CREAR_ITEM_INVENTARIO')) {
+            return $this->forbidden();
+        }
         $inventario = $this->inventarioService->store($request->all());
         return $this->created($inventario);
     }

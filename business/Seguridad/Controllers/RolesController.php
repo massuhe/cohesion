@@ -14,8 +14,8 @@ class RolesController extends Controller {
 
     public function __construct(RolesService $rs) {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->rolesService = $rs;
     }
 
@@ -26,9 +26,9 @@ class RolesController extends Controller {
      */
     public function index()
     {
-        // if (!$this->tiene_permiso('VER_ROLES')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('VER_ROLES')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->rolesService->getAll($resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -100,9 +100,9 @@ class RolesController extends Controller {
 
     public function getPermisos()
     {
-        // if (!$this->tiene_permiso('VER_PERMISOS')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('VER_PERMISOS')) {
+            return $this->forbidden();
+        }
         $permisos = $this->rolesService->getPermisos();
         return $this->ok($permisos);
     }
