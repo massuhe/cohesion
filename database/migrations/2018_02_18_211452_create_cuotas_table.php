@@ -17,9 +17,13 @@ class CreateCuotasTable extends Migration
             $table->increments('id');
             $table->integer('mes');
             $table->integer('anio');
-            $table->integer('importe_total');
+            $table->integer('alumno_id')->unsigned();
+            $table->integer('importe_total')->nullable();
             $table->string('observaciones')->nullable();
             $table->timestamps();
+
+            // Claves foráneas
+            $table->foreign('alumno_id')->references('id')->on('alumnos')->onDelete('cascade');
         });
     }
 

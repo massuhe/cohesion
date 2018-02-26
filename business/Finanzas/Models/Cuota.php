@@ -20,4 +20,9 @@ class Cuota extends Model
      */
     protected $hidden = ['updated_at'];
 
+    public function pagos()
+    {
+        return $this->hasMany('Business\Finanzas\Models\Pago');
+    }
+
 }
