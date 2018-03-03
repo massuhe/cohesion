@@ -9,11 +9,12 @@ use Business\Clases\Exceptions\MaximoAsistentesSuperadoException;
 use Business\Clases\Models\Asistencia;
 use Business\Clases\Models\ClaseEspecifica;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class ClaseEspecificaValidator
 {
 
-    private const MINUTOS_LIMITE_CONFIRMACION = 60;
+    // private const MINUTOS_LIMITE_CONFIRMACION = 60;
 
     public function validateAsisteAClase($idAlumno, $idClase)
     {
@@ -31,7 +32,7 @@ class ClaseEspecificaValidator
         $clase = ClaseEspecifica::with('descripcionClase')->find($idClase);
         $fechaHora = Carbon::instance($clase->fecha);
         $horaArray = explode(":", $clase->descripcionClase->hora_inicio);
-        $fechaHora->hour($horaArray[0])->minute($horaArray[1])->second($horaArray[2])->subMinutes(ClaseEspecificaValidator::MINUTOS_LIMITE_CONFIRMACION);
+        $fechaHora->hour($horaArray[0])->minute($horaArray[1])->second($horaArray[2])->subMinutes(Config::get('business.MINUTOS_LIMITE_CONFIRMACION'));//ClaseEspecificaValidator::MINUTOS_LIMITE_CONFIRMACION);
         if(Carbon::now('America/Argentina/Buenos_Aires') > $fechaHora) {
             throw new ClaseVencidaException();
         }

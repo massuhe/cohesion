@@ -72,4 +72,9 @@ class UsuarioService {
     {
         $this->usuarioRepository->deleteWithClases($idUsuario);
     }
+
+    public function getCantidadClasesAlumno($idAlumno)
+    {
+        return $this->usuarioRepository->getCantidadClasesAlumno($idAlumno);
+    }
 }

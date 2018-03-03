@@ -1,3 +1,4 @@
 <?php
 
-Route::post('cuotas/getOrCreateCuota', 'CuotaController@getOrCreateCuota');
+Route::resource('cuota', 'CuotaController');
+Route::get('cuota/{alumno}/{mes}/{anio}', 'CuotaController@findWithFallback');

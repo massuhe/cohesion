@@ -8,6 +8,8 @@ use Optimus\Genie\Repository;
 use Illuminate\Database\Eloquent\Builder;
 use Business\Clases\Models\ClaseEspecifica;
 use Carbon\Carbon;
+use Business\Clases\Models\Clase;
+use Business\Usuarios\Models\Alumno;
 
 class UsuarioRepository extends Repository
 {
@@ -146,6 +148,12 @@ class UsuarioRepository extends Repository
         $detach = $ceBorrar->map(function($c){ return $c->id;})->toArray();
         $alumno->clasesEspecificas()->attach($attach);
         $alumno->clasesEspecificas()->detach($detach);
+    }
+
+    public function getCantidadClasesAlumno($idAlumno)
+    {
+        $count = Alumno::find($idAlumno)->clases()->count();
+        return $count;
     }
 
 }

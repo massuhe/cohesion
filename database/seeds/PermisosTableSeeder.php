@@ -48,7 +48,12 @@ class PermisosTableSeeder extends Seeder
             ['nombre' => 'VER_ITEM_INVENTARIO'],
             ['nombre' => 'CREAR_ITEM_INVENTARIO'],
             ['nombre' => 'MODIFICAR_ITEM_INVENTARIO'],
-            ['nombre' => 'ELIMINAR_ITEM_INVENTARIO']
+            ['nombre' => 'ELIMINAR_ITEM_INVENTARIO'],
+            ['nombre' => 'VER_CUOTAS'],            
+            ['nombre' => 'VER_CUOTA'],
+            ['nombre' => 'CREAR_CUOTA'],
+            ['nombre' => 'MODIFICAR_CUOTA'],
+            ['nombre' => 'ELIMINAR_CUOTA']
         ];
         DB::table('permisos')->insert($permisos);
     }

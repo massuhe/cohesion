@@ -18,8 +18,8 @@ class UsuarioController extends Controller
     public function __construct(UsuarioService $us)
     {
         $this->middleware('cors');
-        $this->middleware('auth:api');
-        $this->middleware('jwt.refresh');
+        // $this->middleware('auth:api');
+        // $this->middleware('jwt.refresh');
        $this->usuarioService = $us;
     }
 
@@ -63,9 +63,9 @@ class UsuarioController extends Controller
      */
     public function show($usuarioId)
     {
-        if (!$this->tiene_permiso('VER_USUARIO')) {
-            return $this->forbidden();
-        }
+        // if (!$this->tiene_permiso('VER_USUARIO')) {
+        //     return $this->forbidden();
+        // }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->usuarioService->getById($usuarioId, $resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -102,4 +102,5 @@ class UsuarioController extends Controller
         $this->usuarioService->delete($idUsuario);
         return $this->okNoContent(204);
     }
+
 }
