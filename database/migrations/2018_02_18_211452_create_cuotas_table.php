@@ -24,6 +24,8 @@ class CreateCuotasTable extends Migration
 
             // Claves foráneas
             $table->foreign('alumno_id')->references('id')->on('alumnos')->onDelete('cascade');
+            // Restricciones unicidad
+            $table->unique(['mes', 'anio', 'alumno_id']);
         });
     }
 

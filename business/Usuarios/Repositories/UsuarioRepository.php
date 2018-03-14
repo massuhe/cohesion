@@ -73,6 +73,15 @@ class UsuarioRepository extends Repository
                  : $query->whereNotIn('usuarios.id', $alumnos->toArray());
     }
 
+    public function filterIdAlumno(Builder $query, $method, $clauseOperator, $value, $in)
+    {
+        $id = intval($value);
+        $alumno = DB::table('alumnos')->find($id);
+        if ($alumno) {
+            $query->find($alumno->usuario_id);
+        }
+    }
+
     public function filterNombreApellido(Builder $query, $method, $clauseOperator, $value, $in)
     {
         if ($value) {
@@ -152,8 +161,11 @@ class UsuarioRepository extends Repository
 
     public function getCantidadClasesAlumno($idAlumno)
     {
-        $count = Alumno::find($idAlumno)->clases()->count();
-        return $count;
+        $alumno = Alumno::find($idAlumno);
+        if (!$alumno) {
+            return 0;
+        }
+        return $alumno->clases()->count();
     }
 
 }

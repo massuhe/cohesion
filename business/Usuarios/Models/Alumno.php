@@ -39,4 +39,8 @@ class Alumno extends Model
         return $this->hasMany('Business\Clases\Models\PosibilidadRecuperar');
     }
 
+    public function cuotas()
+    {
+        return $this->hasMany('Business\Finanzas\Models\Cuota');
+    }
 }

@@ -30,9 +30,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        if (!$this->tiene_permiso('VER_USUARIOS')) {
-            return $this->forbidden();
-        }
+        // if (!$this->tiene_permiso('VER_USUARIOS')) {
+        //     return $this->forbidden();
+        // }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->usuarioService->getAll($resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);

@@ -53,7 +53,8 @@ class PermisosTableSeeder extends Seeder
             ['nombre' => 'VER_CUOTA'],
             ['nombre' => 'CREAR_CUOTA'],
             ['nombre' => 'MODIFICAR_CUOTA'],
-            ['nombre' => 'ELIMINAR_CUOTA']
+            ['nombre' => 'ELIMINAR_CUOTA'],
+            ['nombre' => 'LISTADO_ALUMNOS']
         ];
         DB::table('permisos')->insert($permisos);
     }

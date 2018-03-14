@@ -35,4 +35,28 @@ class AlumnoRepository extends Repository
         }
         $posibilidadRecuperar->delete();
     }
+
+    public function listado()
+    {
+        $now = Carbon::now();
+        $deudores_query = 
+        "SELECT deudas.alumno_id, GROUP_CONCAT(deudas.mes, '-', deudas.anio, ': ', deudas.importe_total - deudas.importe_pagado SEPARATOR '; ') as debe
+         FROM (
+             SELECT A.id as alumno_id, C.anio, C.mes, C.importe_total, SUM(P.importe) as importe_pagado
+             FROM ALUMNOS A, CUOTAS C, PAGOS P
+             WHERE A.id = C.alumno_id
+             AND CONCAT(C.anio, ' ', C.mes) <= '$now->year $now->month'
+             AND C.id = P.cuota_id
+             GROUP BY A.id, C.anio, C.mes, C.importe_total
+             HAVING C.importe_total - SUM(P.importe) > 0
+         ) as deudas
+         GROUP BY deudas.alumno_id";
+        $query_final = 
+        "SELECT U.id, A0.id as alumno_id, U.nombre, U.apellido, U.activo, deudores.debe
+         FROM usuarios U
+         JOIN alumnos A0 on U.id = A0.usuario_id
+         LEFT JOIN ($deudores_query) as deudores on A0.id = deudores.alumno_id";
+        $data = DB::select(DB::raw($query_final));
+        return $data;
+    }
 }

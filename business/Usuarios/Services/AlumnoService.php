@@ -7,45 +7,28 @@ use Business\Usuarios\Models\Alumno;
 use Business\Usuarios\Factories\AlumnoFactory;
 use Business\Usuarios\Factories\UsuarioFactory;
 use Business\Usuarios\Repositories\AlumnoRepository;
-
+use Carbon\Carbon;
+use Business\Usuarios\Helpers\AlumnoHelper;
 
 class AlumnoService
 {
-    private $alumnoFactory;
-    private $usuarioFactory;
     private $alumnoRepository;
+    private $alumnoHelper;
 
-    public function __construct(AlumnoFactory $af, UsuarioFactory $uf, AlumnoRepository $ar)
+    public function __construct(AlumnoRepository $ar, AlumnoHelper $ah)
     {
-        $this->alumnoFactory = $af;
-        $this->usuarioFactory = $uf;
         $this->alumnoRepository = $ar;
+        $this->alumnoHelper = $ah;
     }
 
-    public function getAll()
+    public function listado()
     {
-        return $this->alumnoRepository->getAll();
+        $alumnos = $this->alumnoRepository->listado();
+        forEach($alumnos as $alumno) {
+            $alumno->debe = $alumno->debe ? $this->alumnoHelper->formatDebe($alumno->debe) : null;
+            $alumno->alumno = ['id' => $alumno->alumno_id];
+        }
+        return $alumnos;
     }
 
-    public function save($input)
-    {
-        $usuario = $this->usuarioFactory->createUsuario($input);
-        $alumno = $this->alumnoFactory->createAlumno($input['alumno']);
-        return $this->alumnoRepository->save($usuario, $alumno);
-    }
-
-    public function getAlumno($idAlumno)
-    {
-        return $this->alumnoRepository->getAlumno($idAlumno);
-    }
-
-    public function update($data, $idAlumno)
-    {
-        return $this->alumnoRepository->update($data, $idAlumno);
-    }
-
-    public function delete($idAlumno)
-    {
-        $this->alumnoRepository->delete($idAlumno);
-    }
 }
