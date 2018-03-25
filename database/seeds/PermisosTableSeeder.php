@@ -13,7 +13,7 @@ class PermisosTableSeeder extends Seeder
     {
         //
         $permisos = [
-            ['nombre' => 'VER_USUARIOS'],
+            ['nombre' => 'VER_USUARIOS'],               // id = 1
             ['nombre' => 'VER_USUARIO'],
             ['nombre' => 'CREAR_USUARIO'],
             ['nombre' => 'ELIMINAR_USUARIO'],
@@ -22,7 +22,7 @@ class PermisosTableSeeder extends Seeder
             ['nombre' => 'VER_CLASE'],
             ['nombre' => 'CREAR_CLASE'],
             ['nombre' => 'MODIFICAR_CLASE'],
-            ['nombre' => 'ELIMINAR_CLASE'],
+            ['nombre' => 'ELIMINAR_CLASE'],             // id = 10
             ['nombre' => 'VER_CLASES_ESPECIFICAS'],
             ['nombre' => 'VER_CLASE_ESPECIFICA'],
             ['nombre' => 'VER_LISTADO_CLASES_ESPECIFICAS'],
@@ -32,7 +32,7 @@ class PermisosTableSeeder extends Seeder
             ['nombre' => 'VER_ACTIVIDAD'],
             ['nombre' => 'VER_LISTADO_ACTIVIDADES'],
             ['nombre' => 'CREAR_ACTIVIDAD'],
-            ['nombre' => 'MODIFICAR_ACTIVIDAD'],
+            ['nombre' => 'MODIFICAR_ACTIVIDAD'],        // id = 20
             ['nombre' => 'ELIMINAR_ACTIVIDAD'],
             ['nombre' => 'VER_ACTIVIDADES_HORAS_LIMITE'],
             ['nombre' => 'CANCELAR_CLASE'],
@@ -42,7 +42,7 @@ class PermisosTableSeeder extends Seeder
             ['nombre' => 'VER_ROL'],
             ['nombre' => 'CREAR_ROL'],
             ['nombre' => 'MODIFICAR_ROL'],
-            ['nombre' => 'ELIMINAR_ROL'],
+            ['nombre' => 'ELIMINAR_ROL'],               // id = 30
             ['nombre' => 'VER_PERMISOS'],
             ['nombre' => 'VER_ITEMS_INVENTARIO'],
             ['nombre' => 'VER_ITEM_INVENTARIO'],
@@ -52,9 +52,10 @@ class PermisosTableSeeder extends Seeder
             ['nombre' => 'VER_CUOTAS'],            
             ['nombre' => 'VER_CUOTA'],
             ['nombre' => 'CREAR_CUOTA'],
-            ['nombre' => 'MODIFICAR_CUOTA'],
+            ['nombre' => 'MODIFICAR_CUOTA'],            // id = 40
             ['nombre' => 'ELIMINAR_CUOTA'],
-            ['nombre' => 'LISTADO_ALUMNOS']
+            ['nombre' => 'LISTADO_ALUMNOS'],
+            ['nombre' => 'VER_LISTADO_PAGOS']
         ];
         DB::table('permisos')->insert($permisos);
     }
