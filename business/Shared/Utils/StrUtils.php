@@ -1,6 +1,6 @@
 <?php
 
-namespace Business\Shared\Helpers;
+namespace Business\Shared\Utils;
 
 class StrUtils {
 

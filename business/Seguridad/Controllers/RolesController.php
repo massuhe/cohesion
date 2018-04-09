@@ -8,14 +8,17 @@ use Business\Seguridad\Models\Rol;
 use Business\Usuarios\Models\Usuario;
 use Business\Seguridad\Services\RolesService;
 
+// TODO: Borrar
+use Business\Finanzas\Helpers\DeudoresNotifier;
+
 class RolesController extends Controller {
 
     private $rolesService;
 
     public function __construct(RolesService $rs) {
         $this->middleware('cors');
-        $this->middleware('auth:api');
-        $this->middleware('jwt.refresh');
+        // $this->middleware('auth:api');
+        // $this->middleware('jwt.refresh');
         $this->rolesService = $rs;
     }
 
@@ -105,6 +108,11 @@ class RolesController extends Controller {
         }
         $permisos = $this->rolesService->getPermisos();
         return $this->ok($permisos);
+    }
+
+    public function mail(DeudoresNotifier $a)
+    {
+        $a->notifyDeudores();
     }
 
 }

@@ -72,6 +72,14 @@ class CuotaService {
         });
     }
 
+    public function getByMesAnio($mes, $anio)
+    {
+        return $this->cuotaRepository->getWhereArray([
+            'mes' => $mes,
+            'anio' => $anio
+        ])->load('pagos');
+    }
+
     private function calculateImporteTotalSegunClases($alumno)
     {
         $numClasesAlumno = $this->usuarioService->getCantidadClasesAlumno($alumno);

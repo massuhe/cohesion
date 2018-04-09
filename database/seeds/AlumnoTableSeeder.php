@@ -5,6 +5,7 @@ use Business\Usuarios\Models\Usuario;
 use Business\Clases\Models\Asistencia;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AlumnoTableSeeder extends Seeder
 {
@@ -24,6 +25,8 @@ class AlumnoTableSeeder extends Seeder
             'domicilio' => 'Echague 782',
             'telefono' => '3435106979',
             'rol_id' => 2,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
             'activo' => true
         ]);
         Alumno::insert([

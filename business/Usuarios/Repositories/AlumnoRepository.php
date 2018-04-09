@@ -52,7 +52,7 @@ class AlumnoRepository extends Repository
          ) as deudas
          GROUP BY deudas.alumno_id";
         $query_final = 
-        "SELECT U.id, A0.id as alumno_id, U.nombre, U.apellido, U.activo, deudores.debe
+        "SELECT U.id, U.email, A0.id as alumno_id, U.nombre, U.apellido, U.activo, deudores.debe
          FROM usuarios U
          JOIN alumnos A0 on U.id = A0.usuario_id
          LEFT JOIN ($deudores_query) as deudores on A0.id = deudores.alumno_id";

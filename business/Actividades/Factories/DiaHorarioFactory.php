@@ -3,7 +3,7 @@
 namespace Business\Actividades\Factories;
 
 use Business\Actividades\Models\DiaHorario;
-use Business\Shared\Helpers\StrUtils;
+use Business\Shared\Utils\StrUtils;
 
 class DiaHorarioFactory {
 

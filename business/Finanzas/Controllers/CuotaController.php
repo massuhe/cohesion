@@ -13,8 +13,8 @@ class CuotaController extends Controller
     public function __construct(CuotaService $cs)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->cuotasService = $cs;
     }
 
@@ -36,6 +36,14 @@ class CuotaController extends Controller
         }
         $data = $this->cuotasService->findWithFallback($alumno, $mes, $anio);
         return $this->ok($data);
+    }
+
+    public function getByMesAnio($mes, $anio)
+    {
+        if (!$this->tiene_permiso('VER_CUOTAS')) {
+            return $this->forbidden();
+        }
+        return $this->cuotasService->getByMesAnio($mes, $anio);
     }
 
     /**
