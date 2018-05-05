@@ -58,21 +58,12 @@ class ActividadRepository extends Repository
     private function storeDiasHorarios($actividad, $diasHorarios)
     {
         forEach ($diasHorarios as $diaHorario) {
-            // $this->storeRangosHorarios($diaHorario->horarios);
             $horarios = $diaHorario->horarios;
             $diaHorario->offsetUnset('horarios');
             $actividad->dias_horarios()->save($diaHorario);
-            // $diaHorario->save();
             $diaHorario->horarios()->saveMany($horarios);
             $diaHorario->horarios = $horarios;
         }
     }
-
-    // private function storeRangosHorarios($rangosHorarios)
-    // {
-    //     forEach($rangosHorarios as $rangoHorario) {
-    //         $rangoHorario->save();
-    //     }
-    // }
 
 }
