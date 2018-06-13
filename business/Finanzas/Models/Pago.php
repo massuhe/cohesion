@@ -20,4 +20,9 @@ class Pago extends Model
      */
     protected $hidden = ['updated_at'];
 
+    public function cuota()
+    {
+        return $this->belongsTo('Business\Finanzas\Models\Cuota');
+    }
+
 }

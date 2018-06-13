@@ -15,9 +15,14 @@ class PagoService {
         $this->pagoRepository = $pr;
     }
 
-    public function getAllPagos()
+    public function getByMesCuota($mes, $anio)
     {
-        return $this->pagoRepository->getAllPagos();
+        return $this->pagoRepository->getByMesCuota($mes, $anio);
+    }
+
+    public function getByAlumnoYFechas($idAlumno, $fechaDesde, $fechaHasta)
+    {
+        return $this->pagoRepository->getByAlumnoYFechas($idAlumno, $fechaDesde, $fechaHasta);
     }
 
 }

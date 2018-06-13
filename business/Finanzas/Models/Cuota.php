@@ -25,4 +25,9 @@ class Cuota extends Model
         return $this->hasMany('Business\Finanzas\Models\Pago');
     }
 
+    public function alumno()
+    {
+        return $this->belongsTo('Business\Usuarios\Models\Alumno');
+    }
+
 }

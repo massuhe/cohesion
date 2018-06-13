@@ -13,14 +13,26 @@ class PagoRepository extends Repository
         return new Pago();
     }
 
-    public function getAllPagos()
+    public function getByMesCuota($mes, $anio)
     {
-        return Pago::select('pagos.id', 'pagos.importe','pagos.created_at as fechaPago', 'cuotas.mes', 'cuotas.anio', 'cuotas.importe_total as totalCuota',
-                'usuarios.apellido', 'usuarios.nombre')
-            ->join('cuotas', 'pagos.cuota_id', '=', 'cuotas.id')
-            ->join('alumnos', 'cuotas.alumno_id', '=', 'alumnos.id')
-            ->join('usuarios', 'alumnos.usuario_id', '=', 'usuarios.id')
-            ->get();
+        return Pago::with('cuota.alumno.usuario:id,nombre,apellido')
+                ->whereHas('cuota', function ($query) use ($mes, $anio) {
+                    $query->where('mes', $mes)->where('anio', $anio);
+                })->get();
+    }
+
+    public function getByAlumnoYFechas($idAlumno, $fechaDesde, $fechaHasta)
+    {
+        return Pago::with('cuota.alumno.usuario:id,nombre,apellido')
+                ->when($fechaDesde, function ($query) use ($fechaDesde) {
+                    return $query->where('created_at', '>=', $fechaDesde);
+                })->when($fechaHasta, function ($query) use ($fechaHasta) {
+                    return $query->where('created_at', '<', $fechaHasta);
+                })->when($idAlumno, function ($query) use ($idAlumno) {
+                    return $query->whereHas('cuota.alumno', function ($query) use ($idAlumno) {
+                        $query->where('id', $idAlumno);
+                    });
+                })->get();
     }
 
 }
