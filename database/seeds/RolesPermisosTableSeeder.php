@@ -56,10 +56,23 @@ class RolesPermisosTableSeeder extends Seeder
             ['rol_id' => 1, 'permiso_id' => 44],
             ['rol_id' => 1, 'permiso_id' => 45],
             ['rol_id' => 1, 'permiso_id' => 46],
+            ['rol_id' => 1, 'permiso_id' => 47],
+            ['rol_id' => 1, 'permiso_id' => 48],
+            ['rol_id' => 1, 'permiso_id' => 49],
+            ['rol_id' => 1, 'permiso_id' => 50],
+            ['rol_id' => 1, 'permiso_id' => 51],
+            ['rol_id' => 1, 'permiso_id' => 53],
+            ['rol_id' => 1, 'permiso_id' => 56],
+            ['rol_id' => 1, 'permiso_id' => 57],
             ['rol_id' => 2, 'permiso_id' => 14],
             ['rol_id' => 2, 'permiso_id' => 22],
             ['rol_id' => 2, 'permiso_id' => 23],
             ['rol_id' => 2, 'permiso_id' => 25],
+            ['rol_id' => 2, 'permiso_id' => 52],
+            ['rol_id' => 2, 'permiso_id' => 54],
+            ['rol_id' => 2, 'permiso_id' => 55],
+            ['rol_id' => 2, 'permiso_id' => 58],
+            ['rol_id' => 2, 'permiso_id' => 59]
         ];
         DB::table('roles_permisos')->insert($rolesPermisos);
     }

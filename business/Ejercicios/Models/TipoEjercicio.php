@@ -21,4 +21,9 @@ class TipoEjercicio extends Model
      */
     protected $hidden = ['updated_at'];
 
+    public function ejercicios()
+    {
+        return $this->hasMany('Business\Ejercicios\Models\Ejercicio');
+    }
+
 }

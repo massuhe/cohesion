@@ -5,11 +5,16 @@ namespace Business\Clases\Repositories;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Optimus\Genie\Repository;
+use Illuminate\Database\Eloquent\Builder;
 use Business\Clases\Models\ClaseEspecifica;
 use Business\Clases\Models\PosibilidadRecuperar;
 use Business\Clases\Models\Asistencia;
+use Optimus\Bruno\EloquentBuilderTrait;
+use Business\Rutinas\Models\ParametroItemSerie;
 
 class ClaseEspecificaRepository extends Repository {
+
+    use EloquentBuilderTrait;
 
     public function getModel()
     {
@@ -76,6 +81,35 @@ class ClaseEspecificaRepository extends Repository {
         ClaseEspecifica::whereHas('descripcionClase', function($query) use ($idActividad) {
             $query->where('actividad_id', $idActividad);
         })->delete();
+    }
+
+    public function filterIdAlumno(Builder $query, $method, $clauseOperator, $value, $in)
+    {
+        $idsClasesAlumno = Asistencia::select('clase_especifica_id')
+            ->where('alumno_id', $value)
+            ->get()
+            ->map(function($c) {
+                return $c->clase_especifica_id;
+            })
+            ->toArray();
+        $query->whereIn('id', $idsClasesAlumno);
+    }
+
+    public function filterAssignedToRutina(Builder $query, $method, $clauseOperator, $value, $in)
+    {
+
+        $fechaHoraLimite = Carbon::now('America/Argentina/Buenos_Aires')->toDateTimeString();
+        $idClasesPosibles = ClaseEspecifica::select('clases_especificas.id')
+            ->join('asistencias', 'clases_especificas.id', '=', 'asistencias.clase_especifica_id')
+            ->leftJoin('clases', 'clases_especificas.descripcion_clase', '=', 'clases.id')
+            ->where('asistencias.asistio', true)
+            ->where('clases.actividad_id', 1)
+            ->whereRaw("CONCAT(clases_especificas.fecha, ' ', clases.hora_fin) <= '$fechaHoraLimite'")
+            ->whereNotIn('clases_especificas.id', function($query) {
+                $query->select('parametros_item_serie.clase_especifica_id')->from('parametros_item_serie');
+            })
+            ->get();
+        $query->whereIn('id', $idClasesPosibles);
     }
 
 }

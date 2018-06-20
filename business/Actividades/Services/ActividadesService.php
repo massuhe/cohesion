@@ -9,6 +9,7 @@ use Business\Actividades\Factories\ActividadFactory;
 use Business\Clases\Repositories\ClaseRepository;
 use Business\Clases\Repositories\ClaseEspecificaRepository;
 use Business\Clases\Services\ClaseService;
+use Business\Actividades\Exceptions\EliminarMusculacionException;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -96,6 +97,9 @@ class ActividadesService {
 
     public function delete($idActividad)
     {
+        if (intval($idActividad) === 1) {
+            throw new EliminarMusculacionException();
+        }
         DB::transaction(function () use ($idActividad) {
             $this->actividadRepository->delete($idActividad);
             $this->claseRepository->deleteWhere('actividad_id',$idActividad);

@@ -5,7 +5,7 @@ namespace Business\Usuarios\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 
-class UsuarioRequest extends FormRequest
+class ChangePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,7 @@ class UsuarioRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'email' => 'required|email',
-            'telefono' => 'required|numeric'
+            'password' => 'required|min:6'
         ];
     }
 
@@ -40,9 +37,8 @@ class UsuarioRequest extends FormRequest
     public function messages()
     {
         return [
-            "required" => "El dato es obligatorio",
-            "email" => "El email no tiene un formato válido",
-            "numeric" => "El teléfono sólo debe contener números"
+            'required' => 'El dato es obligatorio',
+            'min' => 'El dato debe contener como mínimo 6 caracteres'
         ];
     }
 

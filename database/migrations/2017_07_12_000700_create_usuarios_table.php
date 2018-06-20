@@ -19,7 +19,7 @@ class CreateUsuariosTable extends Migration
             $table->string('password');
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('domicilio');
+            $table->string('domicilio')->nullable();
             $table->string('telefono');
             $table->integer('rol_id')->unsigned()->nullable();
             $table->boolean('activo');

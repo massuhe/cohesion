@@ -4,6 +4,7 @@ namespace Business\Rutinas\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use Optimus\Genie\Repository;
+use Carbon\Carbon;
 use Business\Rutinas\Models\Rutina;
 
 class RutinaRepository extends Repository
@@ -31,7 +32,7 @@ class RutinaRepository extends Repository
      */
     public function getByAlumno($alumnoId, $numero_rutina = null)
     {
-        $rutinaQuery = Rutina::with(['dias.series.items.parametrosSemana.parametros.clase', 'dias.series.items.ejercicio'])
+        $rutinaQuery = Rutina::with(['dias.series.items.parametrosSemana.parametros', 'dias.series.items.ejercicio'])
                              ->where('alumno_id', $alumnoId);
         if ($numero_rutina) {
             $rutinaQuery->where('numero_rutina', $numero_rutina);
@@ -76,6 +77,12 @@ class RutinaRepository extends Repository
         });
     }
 
+    public function cerrarRutina($rutina)
+    {
+        $rutina->fecha_fin = Carbon::now();
+        $rutina->save();
+    }
+
     private function borrarEntidadesRutina($entidadesBorrar)
     {
         forEach($entidadesBorrar as $entidad) {
@@ -102,6 +109,8 @@ class RutinaRepository extends Repository
     private function storeItem($item)
     {
         $item->parametrosSemana()->saveMany($item->parametrosSemana);
+        $item->parametrosSemana->load('parametros');
+        $item->load('ejercicio');
     }
 
 }

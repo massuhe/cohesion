@@ -56,7 +56,9 @@ class UsuarioRepository extends Repository
         $usuario->save();
         if ($alumno) {
             $usuario->alumno()->save($usuario->alumno);
-            $this->updateClases($usuario->alumno, $data['alumno']['clases']);
+            if (isset($data['alumno']['clases'])) {
+                $this->updateClases($usuario->alumno, $data['alumno']['clases']);
+            }
         }
         return $usuario;
     }
@@ -110,13 +112,12 @@ class UsuarioRepository extends Repository
 
     private function updateUsuario($usuario, $data)
     {
-        $usuario->apellido = $data['apellido'];
-        $usuario->nombre = $data['nombre'];
-        $usuario->email = $data['email'];
-        // $usuario->password = $data['password']; TODO: Hacer
-        $usuario->domicilio = $data['domicilio'];
-        $usuario->telefono = $data['telefono'];
-        !isset($data['rol']) ?: $usuario->rol_id = $data['rol'];
+        $this->setIfDefined($usuario, 'apellido', $data, 'apellido');
+        $this->setIfDefined($usuario, 'nombre', $data, 'nombre');
+        $this->setIfDefined($usuario, 'email', $data, 'email');
+        $this->setIfDefined($usuario, 'domicilio', $data, 'domicilio');
+        $this->setIfDefined($usuario, 'telefono', $data, 'telefono');
+        $this->setIfDefined($usuario, 'rol_id', $data, 'rol');
         $usuario->activo = true;
         return $usuario;
     }
@@ -125,10 +126,11 @@ class UsuarioRepository extends Repository
     {
         $usuario = Usuario::with('alumno.clases')->find($idUsuario);
         $alumno = $usuario->alumno;
-        $alumno->tiene_antec_deportivos = $data['alumno']['tieneAntecDeportivos'];
-        $alumno->observaciones_antec_deportivos = $data['alumno']['observacionesAntecDeportivos'];
-        $alumno->tiene_antec_medicos = $data['alumno']['tieneAntecMedicos'];
-        $alumno->observaciones_antec_medicos = $data['alumno']['observacionesAntecMedicos'];
+        $this->setIfDefined($alumno, 'tiene_antec_deportivos', $data['alumno'], 'tieneAntecDeportivos');
+        $this->setIfDefined($alumno, 'observaciones_antec_deportivos', $data['alumno'], 'observacionesAntecDeportivos');
+        $this->setIfDefined($alumno, 'tiene_antec_medicos', $data['alumno'], 'tieneAntecMedicos');
+        $this->setIfDefined($alumno, 'observaciones_antec_medicos', $data['alumno'], 'observacionesAntecMedicos');
+        $this->setIfDefined($alumno, 'imagen_perfil', $data['alumno'], 'imagenPerfil');
         return $usuario;
     }
 
@@ -166,6 +168,20 @@ class UsuarioRepository extends Repository
             return 0;
         }
         return $alumno->clases()->count();
+    }
+
+    public function changePassword($idUsuario, $password)
+    {
+        $usuario = $this->getById($idUsuario);
+        $usuario->password = $password;
+        $usuario->save();
+    }
+
+    private function setIfDefined($entity, $entityProp, $data, $dataProp) {
+        if (!isset($data[$dataProp])) {
+            return ;
+        }
+        $entity->$entityProp = $data[$dataProp];
     }
 
 }

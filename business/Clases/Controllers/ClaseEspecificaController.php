@@ -5,9 +5,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Business\Clases\Services\ClaseEspecificaService;
 use Business\Clases\Models\PosibilidadRecuperar;
+use Optimus\Bruno\EloquentBuilderTrait;
 
 class ClaseEspecificaController extends Controller
 {
+
+    use EloquentBuilderTrait;
 
     private $claseEspecificaService;
 
@@ -25,11 +28,12 @@ class ClaseEspecificaController extends Controller
      */
     public function index()
     {
-        if (!$this->tiene_permiso('VER_CLASES_ESPECIFICAS')) {
+        $isAlumno = $this->tiene_permiso('VER_CLASES_ESPECIFICAS_ALUMNO');
+        if (!$this->tiene_permiso('VER_CLASES_ESPECIFICAS') && !$isAlumno) {
             return $this->forbidden();
         }
         $resourceOptions = $this->parseResourceOptions();
-        $data = $this->claseEspecificaService->getAll($resourceOptions);
+        $data = $this->claseEspecificaService->getAll($resourceOptions, $isAlumno);
         $parsedData = $this->parseData($data, $resourceOptions);
         $selectedData = $this->applySelect($parsedData);
         return $this->ok($selectedData);

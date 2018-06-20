@@ -58,7 +58,20 @@ class PermisosTableSeeder extends Seeder
             ['nombre' => 'VER_MOVIMIENTOS'],
             ['nombre' => 'VER_MOVIMIENTO'],
             ['nombre' => 'CREAR_MOVIMIENTO'],
-            ['nombre' => 'REPORTE_INGRESOS_ALUMNOS']
+            ['nombre' => 'REPORTE_INGRESOS_ALUMNOS'],
+            ['nombre' => 'VER_RUTINAS'],
+            ['nombre' => 'VER_RUTINA'],
+            ['nombre' => 'CREAR_RUTINA'],
+            ['nombre' => 'MODIFICAR_RUTINA'],
+            ['nombre' => 'ELIMINAR_RUTINA'],
+            ['nombre' => 'VER_RUTINA_ALUMNO'],
+            ['nombre' => 'CARGAR_DETALLES'],
+            ['nombre' => 'CARGAR_DETALLES_ALUMNO'],
+            ['nombre' => 'VER_CLASES_ESPECIFICAS_ALUMNO'],
+            ['nombre' => 'VER_EJERCICIOS'],
+            ['nombre' => 'VER_PERFIL'],
+            ['nombre' => 'VER_PERFIL_ALUMNO'],
+            ['nombre' => 'MODIFICAR_ALUMNO']
         ];
         DB::table('permisos')->insert($permisos);
     }

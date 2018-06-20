@@ -2,6 +2,7 @@
 
 return [
     'images_path' => [
-        'inventario' => '\images\inventario\\'
+        'inventario' => '\images\inventario\\',
+        'avatares' => '\images\avatares\\'
     ]
 ];

@@ -9,7 +9,7 @@ use Business\Usuarios\Models\Usuario;
 use Business\Seguridad\Services\RolesService;
 
 // TODO: Borrar
-use Business\Finanzas\Helpers\DeudoresNotifier;
+use Business\Rutinas\Helpers\NuevaRutinaNotifier;
 
 class RolesController extends Controller {
 
@@ -110,9 +110,10 @@ class RolesController extends Controller {
         return $this->ok($permisos);
     }
 
-    public function mail(DeudoresNotifier $a)
+    // TODO: Borrar
+    public function mail(NuevaRutinaNotifier $a)
     {
-        $a->notifyDeudores();
+        $a->notifyNuevaRutina();
     }
 
 }

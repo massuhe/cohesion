@@ -55,7 +55,8 @@ class AlumnoRepository extends Repository
         "SELECT U.id, U.email, A0.id as alumno_id, U.nombre, U.apellido, U.activo, deudores.debe
          FROM usuarios U
          JOIN alumnos A0 on U.id = A0.usuario_id
-         LEFT JOIN ($deudores_query) as deudores on A0.id = deudores.alumno_id";
+         LEFT JOIN ($deudores_query) as deudores on A0.id = deudores.alumno_id
+         WHERE u.deleted_at IS NULL";
         $data = DB::select(DB::raw($query_final));
         return $data;
     }

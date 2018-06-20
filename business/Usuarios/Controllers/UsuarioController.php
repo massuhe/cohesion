@@ -5,9 +5,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Business\Usuarios\Models\Usuario;
 use Optimus\Bruno\EloquentBuilderTrait;
-// use Optimus\Bruno\LaravelController;
 use Business\Usuarios\Services\UsuarioService;
 use Business\Usuarios\Requests\UsuarioRequest;
+use Business\Usuarios\Requests\ChangePasswordRequest;
 
 class UsuarioController extends Controller
 {
@@ -18,9 +18,9 @@ class UsuarioController extends Controller
     public function __construct(UsuarioService $us)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
-       $this->usuarioService = $us;
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
+        $this->usuarioService = $us;
     }
 
     /**
@@ -30,9 +30,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        // if (!$this->tiene_permiso('VER_USUARIOS')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('VER_USUARIOS')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->usuarioService->getAll($resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -61,11 +61,12 @@ class UsuarioController extends Controller
      * @param  int $usuarioId
      * @return \Illuminate\Http\Response
      */
-    public function show($usuarioId)
+    public function show($usuarioId = null)
     {
-        // if (!$this->tiene_permiso('VER_USUARIO')) {
-        //     return $this->forbidden();
-        // }
+        $isAlumno = $this->tiene_permiso(('VER_PERFIL_ALUMNO'));
+        if (!$isAlumno && !$this->tiene_permiso('VER_USUARIO')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->usuarioService->getById($usuarioId, $resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -79,9 +80,10 @@ class UsuarioController extends Controller
      * @param  int $idUsuario
      * @return \Illuminate\Http\Response
      */
-    public function update(UsuarioRequest $request, $idUsuario)
+    public function update(UsuarioRequest $request, $idUsuario = null)
     {
-        if (!$this->tiene_permiso('MODIFICAR_USUARIO')) {
+        $isAlumno = $this->tiene_permiso('MODIFICAR_ALUMNO');
+        if (!$isAlumno && !$this->tiene_permiso('MODIFICAR_USUARIO')) {
             return $this->forbidden();
         }
         $usuario = $this->usuarioService->update($request->all(), $idUsuario);
@@ -101,6 +103,17 @@ class UsuarioController extends Controller
         }
         $this->usuarioService->delete($idUsuario);
         return $this->okNoContent(204);
+    }
+
+    public function changePassword(ChangePasswordRequest $request, $idUsuario = null)
+    {
+        $isAlumno = $this->tiene_permiso('MODIFICAR_ALUMNO');
+        if (!$isAlumno && !$this->tiene_permiso('MODIFICAR_USUARIO')) {
+            return $this->forbidden();
+        }
+        $password = $request->get('password');
+        $this->usuarioService->changePassword($idUsuario, $password);
+        return $this->okNoContent();
     }
 
 }

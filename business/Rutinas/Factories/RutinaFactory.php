@@ -21,7 +21,7 @@ class RutinaFactory {
         $rutina->fecha_inicio = new Carbon($data['fechaInicio']);
         $rutina->fecha_fin = isset($data['fechaFin']) ? new Carbon($data['fechaFin']) : null;
         $rutina->total_semanas = $data['totalSemanas'];
-        $rutina->numero_rutina = $data['numeroRutina'];
+        // $rutina->numero_rutina = $data['numeroRutina'];
         $rutina->alumno_id = $data['alumno'];
         $diasJson = isset($data['dias']) ? $data['dias'] : null;
         if ($diasJson) {

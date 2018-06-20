@@ -48,9 +48,21 @@ class ClaseEspecificaService
         return $returnObj;
     }
 
-    public function getAll($option)
+    public function getAll($resourceOptions, $isAlumno)
     {
-        return $this->claseEspecificaRepository->get($option);
+        if ($isAlumno) {
+            $filter = [
+                'filters' => [[
+                    'key' => 'idAlumno',
+                    'value' => $this->getCurrentAlumnoId(),
+                    'operator' => 'eq', 
+                    'not' => false
+                ]], 
+                'or' => 'false'
+            ];
+            $resourceOptions['filter_groups'][] = $filter;
+        }
+        return $this->claseEspecificaRepository->get($resourceOptions);
     }
 
     public function getById($id, $option)

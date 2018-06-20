@@ -16,7 +16,7 @@ class CreateParametrosSemanaTable extends Migration
         Schema::create('parametros_semana', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('semana');
-            $table->string('repeticiones');
+            $table->string('repeticiones')->nullable();
             $table->integer('item_serie_rutina_id')->unsigned();
             $table->timestamps();
 

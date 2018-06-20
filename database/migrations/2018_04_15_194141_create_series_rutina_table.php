@@ -15,7 +15,7 @@ class CreateSeriesRutinaTable extends Migration
     {
         Schema::create('series_rutina', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('vueltas');
+            $table->string('vueltas')->nullable();
             $table->string('macro_descanso')->nullable();
             $table->string('observaciones')->nullable();
             $table->integer('dia_rutina_id')->unsigned();

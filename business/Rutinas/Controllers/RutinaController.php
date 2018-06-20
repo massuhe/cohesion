@@ -22,9 +22,9 @@ class RutinaController extends Controller
 
     public function show(Request $request, $rutinaId)
     {
-        // if (!$this->tiene_permiso('VER_RUTINA')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('VER_RUTINA')) {
+            return $this->forbidden();
+        }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->rutinaService->getById($rutinaId, $resourceOptions);
         $parsedData = $this->parseData($data, $resourceOptions);
@@ -33,30 +33,27 @@ class RutinaController extends Controller
 
     public function store(Request $request)
     {
-        // if (!$this->tiene_permiso('CREAR_RUTINA')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('CREAR_RUTINA')) {
+            return $this->forbidden();
+        }
         $rutina = $this->rutinaService->store($request->get('rutina'));
         return $this->ok($rutina);
     }
 
     public function update(Request $request, $idRutina)
     {
-        // if (!$this->tiene_permiso('MODIFICAR_RUTINA')) {
-        //     return $this->forbidden();
-        // }
+        if (!$this->tiene_permiso('MODIFICAR_RUTINA')) {
+            return $this->forbidden();
+        }
         $rutina = $this->rutinaService->update($idRutina, $request->get('rutina'));
         return $this->ok($rutina);
     }
 
     public function getByAlumno(Request $request, $alumnoId = null)
     {
-        $isAlumno = false;// $this->tiene_permiso('VER_RUTINA_ALUMNO');
-        // if (!$this->tiene_permiso('VER_RUTINA') && !&isAlumno) {
-        //     return $this->forbidden();
-        // }
-        if ($isAlumno) {
-            $alumnoId = Auth::guard()->user()->alumno->id;
+        $isAlumno = $this->tiene_permiso('VER_RUTINA_ALUMNO');
+        if (!$this->tiene_permiso('VER_RUTINA') && !$isAlumno) {
+            return $this->forbidden();
         }
         $numero_rutina = $request->get('numeroRutina');
         $withUltimaSemana = $request->get('withUltimaSemana') === '1';
@@ -64,16 +61,17 @@ class RutinaController extends Controller
         return $this->ok($rutina);
     }
 
-    public function cargarDetallesRutina(Request $request)
+    public function cargarDetallesRutina(Request $request, $alumnoId = null)
     {
-        // if (!$this->tiene_permiso('VER_RUTINA')) {
+        $isAlumno = false;// $this->tiene_permiso('CARGAR_DETALLES_ALUMNO');
+        // if (!$isAlumno && !$this->tiene_permiso('CARGAR_DETALLES')) {
         //     return $this->forbidden();
         // }
         $dia = $request->get('dia');
-        $semana = $request->get('semana');
-        $clase = $request->get('clase');
+        $semana = intval($request->get('semana'));
+        $clase = intval($request->get('clase'));
         $detalles = $request->get('detalles');
-        $this->rutinaService->cargarDetallesCurrentAlumnoRutina($semana, $dia, $clase, $detalles);
+        $this->rutinaService->cargarDetallesRutinaAlumno($alumnoId, $semana, $dia, $clase, $detalles);
         return $this->okNoContent();
     }
 

@@ -19,11 +19,10 @@ class ParametroItemSerie extends Model
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at', 'parametro_semana_id'];
+    protected $hidden = ['created_at', 'updated_at', 'parametro_semana_id', 'clase'];
 
     public function clase() {
         return $this->belongsTo('Business\Clases\Models\ClaseEspecifica', 'clase_especifica_id');
     }
-
 
 }

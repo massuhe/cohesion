@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        setlocale(LC_TIME, 'Spanish');
         Validator::extend('valid_range', 'Business\Shared\Validators\RangoValidator@validate');
     }
 
