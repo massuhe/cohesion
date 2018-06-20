@@ -30,7 +30,7 @@ class Controller extends LaravelController
     protected function applySelect($data)
     {
         $only = request()->get('select');
-        if(sizeOf($only) === 0){
+        if(!$only || sizeOf($only) === 0){
             return $data;
         }
         $onlyParsed = $this->parseOnly($only);

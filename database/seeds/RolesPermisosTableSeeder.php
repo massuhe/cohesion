@@ -64,6 +64,7 @@ class RolesPermisosTableSeeder extends Seeder
             ['rol_id' => 1, 'permiso_id' => 53],
             ['rol_id' => 1, 'permiso_id' => 56],
             ['rol_id' => 1, 'permiso_id' => 57],
+            ['rol_id' => 1, 'permiso_id' => 60],
             ['rol_id' => 2, 'permiso_id' => 14],
             ['rol_id' => 2, 'permiso_id' => 22],
             ['rol_id' => 2, 'permiso_id' => 23],

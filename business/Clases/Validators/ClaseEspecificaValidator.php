@@ -33,7 +33,7 @@ class ClaseEspecificaValidator
         $fechaHora = Carbon::instance($clase->fecha);
         $horaArray = explode(":", $clase->descripcionClase->hora_inicio);
         $fechaHora->hour($horaArray[0])->minute($horaArray[1])->second($horaArray[2])->subMinutes(Config::get('business.MINUTOS_LIMITE_CONFIRMACION'));//ClaseEspecificaValidator::MINUTOS_LIMITE_CONFIRMACION);
-        if(Carbon::now('America/Argentina/Buenos_Aires') > $fechaHora) {
+        if(Carbon::now() > $fechaHora) {
             throw new ClaseVencidaException();
         }
     }

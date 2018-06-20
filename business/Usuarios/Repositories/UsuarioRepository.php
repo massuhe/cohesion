@@ -94,7 +94,7 @@ class UsuarioRepository extends Repository
 
     private function generateClasesEspecificasAlumno($alumno, $clases)
     {
-        $now = Carbon::now('America/Argentina/Buenos_Aires')->toDateTimeString();
+        $now = Carbon::now()->toDateTimeString();
         $clasesEspecificas = ClaseEspecifica::select('clases_especificas.id')
             ->join('clases', 'clases_especificas.descripcion_clase', '=', 'clases.id')
             ->whereIn('descripcion_clase', $clases)
@@ -149,7 +149,7 @@ class UsuarioRepository extends Repository
 
     private function updateClasesEspecificas($alumno, $idClasesAsociar, $idClasesBorrar)
     {
-        $now = Carbon::now('America/Argentina/Buenos_Aires')->toDateTimeString();
+        $now = Carbon::now()->toDateTimeString();
         $ceBorrar = $alumno->clasesEspecificas()->whereIn('descripcion_clase', $idClasesBorrar->toArray())->where('fecha', '>=', $now)->get();
         $ceAgregar = ClaseEspecifica::whereIn('descripcion_clase', $idClasesAsociar->toArray())->where('fecha', '>=', $now)->get();
         $attach = [];

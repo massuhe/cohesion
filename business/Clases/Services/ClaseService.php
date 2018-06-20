@@ -57,7 +57,7 @@ class ClaseService {
 
     public function getWithAsistencias()
     {
-        $fechaHoraActual = Carbon::now('America/Argentina/Buenos_Aires')->toDateTimeString();
+        $fechaHoraActual = Carbon::now()->toDateTimeString();
         $clases = $this->claseRepository->getWithAsistencias($fechaHoraActual);
         return $clases;
     }
