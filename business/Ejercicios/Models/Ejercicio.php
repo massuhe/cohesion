@@ -18,7 +18,7 @@ class Ejercicio extends Model
      *
      * @var array
      */
-    protected $hidden = ['updated_at', 'tipo_ejercicio_id'];
+    protected $hidden = ['updated_at'];
 
     public function tipoEjercicio()
     {

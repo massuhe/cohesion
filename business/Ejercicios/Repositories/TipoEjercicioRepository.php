@@ -13,4 +13,18 @@ class TipoEjercicioRepository extends Repository {
         return new TipoEjercicio();
     }
 
+    public function store($tipoEjercicio)
+    {
+        $tipoEjercicio->save();
+        return $tipoEjercicio;
+    }
+
+    public function update($idTipoEjercicio, $data)
+    {
+        $tipoEjercicio = $this->getById($idTipoEjercicio);
+        $tipoEjercicio->nombre = $data['nombre'];
+        $tipoEjercicio->save();
+        return $tipoEjercicio;
+    }
+
 }

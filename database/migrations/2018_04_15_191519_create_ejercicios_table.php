@@ -16,6 +16,7 @@ class CreateEjerciciosTable extends Migration
         Schema::create('ejercicios', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
+            $table->string('descripcion')->nullable();
             $table->integer('tipo_ejercicio_id')->unsigned();
             $table->timestamps();
 
