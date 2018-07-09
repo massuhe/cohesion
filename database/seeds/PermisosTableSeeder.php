@@ -72,7 +72,12 @@ class PermisosTableSeeder extends Seeder
             ['nombre' => 'VER_PERFIL'],
             ['nombre' => 'VER_PERFIL_ALUMNO'],
             ['nombre' => 'MODIFICAR_ALUMNO'],
-            ['nombre' => 'VER_LISTADO_PAGOS']           // id = 60
+            ['nombre' => 'VER_LISTADO_PAGOS'],           // id = 60
+            ['nombre' => 'VER_NOVEDADES'],
+            ['nombre' => 'CREAR_NOVEDAD'],
+            ['nombre' => 'VER_NOVEDAD'],
+            ['nombre' => 'MODIFICAR_NOVEDAD'],
+            ['nombre' => 'ELIMINAR_NOVEDAD']
         ];
         DB::table('permisos')->insert($permisos);
     }
