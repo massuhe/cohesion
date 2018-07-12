@@ -10,6 +10,7 @@ use Business\Seguridad\Services\RolesService;
 
 // TODO: Borrar
 use Business\Rutinas\Helpers\NuevaRutinaNotifier;
+use Business\Clases\Helpers\AlumnoInasistenteNotifier;
 
 class RolesController extends Controller {
 
@@ -111,9 +112,9 @@ class RolesController extends Controller {
     }
 
     // TODO: Borrar
-    public function mail(NuevaRutinaNotifier $a)
+    public function mail(AlumnoInasistenteNotifier $a)
     {
-        $a->notifyNuevaRutina();
+        $a->notifyAlumnoInasistente();
     }
 
 }

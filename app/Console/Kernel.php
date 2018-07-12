@@ -27,7 +27,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-
+        $schedule->call(function () {
+            echo 'Imprimo cada 5 minutosn';
+        })->everyFiveMinutes();
     }
 
     /**

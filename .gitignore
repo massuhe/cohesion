@@ -6,8 +6,15 @@ Homestead.yaml
 .env
 .env.production
 npm-debug.log
-/public/images
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+/public/images
+/schedulerlogs/*
+scheduler.bat
+
+# Elastic Beanstalk Files
+
+.elasticbeanstalk/*
+
+!.elasticbeanstalk/*.cfg.yml
+
+!.elasticbeanstalk/*.global.yml
+
