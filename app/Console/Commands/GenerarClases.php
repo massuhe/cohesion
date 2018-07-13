@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Business\Clases\Helpers\ClasesEspecificasGenerator;
+use Carbon\Carbon;
 
 class GenerarClases extends Command
 {
@@ -48,6 +49,7 @@ class GenerarClases extends Command
             throw new \Exception('El número de semanas no puede ser negativo');
         }
         $semana = $this->classGenerator->generate($semanas, $idActividad);
-        echo "Las clases de la semana $semana se han generado correctamente";
+        $nowDateTime = Carbon::now()->toDateTimeString();
+        echo "$nowDateTime: Las clases de la semana $semana se han generado correctamente";
     }
 }

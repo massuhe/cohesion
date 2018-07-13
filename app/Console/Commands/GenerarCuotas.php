@@ -51,6 +51,7 @@ class GenerarCuotas extends Command
             $anio = $now->year;
         }
         $this->cuotasGenerator->generate($mes, $anio);
-        echo "Las cutoas del $mes/$anio se generaron correctamente";
+        $nowDateTime = Carbon::now()->toDateTimeString();
+        echo "$nowDateTime: Las cutoas del $mes/$anio se generaron correctamente";
     }
 }

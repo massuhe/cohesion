@@ -38,6 +38,9 @@ class NuevaRutinaNotifier {
                 ]
             );
         }
+        $rutinasPorVencerCount = sizeof($rutinasPorVencer);
+        $nowDateTime = Carbon::now()->toDateTimeString();
+        echo "$nowDateTime: se ha notificado sobre $rutinasPorVencerCount alumnos a los que se les tiene que renovar la rutina. \r\n";
     }
 
     private function formatDate($dateString)

@@ -21,6 +21,7 @@ class AlumnoInasistenteNotifier {
     {
         $admin = Usuario::where('rol_id', 1)->first();
         $alumosInasistentesHoy = $this->getAlumnosInasistentesHoy();
+        $alumnosNotificadosCount = 0;
         forEach($alumosInasistentesHoy as $alumno) {
             $tiene3InasistenciasSeguidas = $this->checkTiene3InasistenciasSeguidas($alumno->id);
             if (!$tiene3InasistenciasSeguidas) {
@@ -28,12 +29,15 @@ class AlumnoInasistenteNotifier {
             }
             $this->notifyAdmin($admin, $alumno);
             $this->notifyAlumno($alumno);
+            $alumnosNotificadosCount++;
         }
+        $nowDateTime = Carbon::now()->toDateTimeString();
+        echo "$nowDateTime: se han notificado a $alumnosNotificadosCount alumnos sobre su inasistencia. \r\n";
     }
 
     private function getAlumnosInasistentesHoy()
     {
-        $today = Carbon::now()->addDays(6)->toDateString();
+        $today = Carbon::now()->toDateString();
         $alumnos = DB::table('asistencias')
           ->select('alumnos.id', 'usuarios.email', 'usuarios.nombre','usuarios.apellido')
           ->distinct()
