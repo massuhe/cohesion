@@ -70,8 +70,8 @@ class InventarioService {
                 }
                 $newImage = $this->inventarioHelper->storeBase64Image($item->id, 'inventario', $data['image']);
                 $this->inventarioRepository->updateImage($item, $newImage);
-                return $item;
             }
+            return $item;
         });
     }
 
