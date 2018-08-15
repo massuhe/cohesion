@@ -111,10 +111,4 @@ class RolesController extends Controller {
         return $this->ok($permisos);
     }
 
-    // TODO: Borrar
-    public function mail(AlumnoInasistenteNotifier $a)
-    {
-        $a->notifyAlumnoInasistente();
-    }
-
 }

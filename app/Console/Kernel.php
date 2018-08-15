@@ -7,8 +7,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Business\Rutinas\Helpers\NuevaRutinaNotifier;
 use Business\Clases\Helpers\AlumnoInasistenteNotifier;
 
-use Carbon\Carbon;
-
 class Kernel extends ConsoleKernel
 {
 
