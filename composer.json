@@ -51,7 +51,7 @@
             "php artisan optimize"
         ],
         "tests" : [
-            "vendor\\bin\\phpunit tests/Unit"
+            "vendor\\bin\\phpunit --testdox tests/Unit"
         ]
     },
     "config": {
