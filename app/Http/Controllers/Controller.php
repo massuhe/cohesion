@@ -27,6 +27,11 @@ class Controller extends LaravelController
         return response()->json(['clientMessage' => 'No cuenta con los permisos suficientes para ejecutar la acción'], 403, ['Authorization']);
     }
 
+    protected function countHeader($response, $count)
+    {
+        return $response->header('X-Total-Count', $count);
+    }
+
     protected function applySelect($data)
     {
         $only = request()->get('select');

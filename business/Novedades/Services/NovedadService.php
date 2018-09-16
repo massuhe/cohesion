@@ -71,6 +71,11 @@ class NovedadService {
         });
     }
 
+    public function count()
+    {
+        return sizeof($this->novedadRepository->get());
+    }
+
     private function storeNovedadImage($novedad, $data) {
         if (!(isset($data['image']) && $data['image'] !== null)) {
             return ;

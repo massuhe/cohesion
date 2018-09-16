@@ -32,9 +32,10 @@ class NovedadController extends Controller
         // }
         $resourceOptions = $this->parseResourceOptions();
         $data = $this->novedadService->getAll($resourceOptions);
+        $totalDataCount = $this->novedadService->count();
         $parsedData = $this->parseData($data, $resourceOptions);
         $selectedData = $this->applySelect($parsedData);
-        return $this->ok($selectedData);
+        return $this->countHeader($this->ok($selectedData), $totalDataCount);
     }
 
     /**
