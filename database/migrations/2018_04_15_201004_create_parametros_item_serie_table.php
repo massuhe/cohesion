@@ -15,7 +15,7 @@ class CreateParametrosItemSerieTable extends Migration
     {
         Schema::create('parametros_item_serie', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('carga');
+            $table->string('carga')->nullable();
             $table->integer('clase_especifica_id')->unsigned();
             $table->integer('parametro_semana_id')->unsigned();
             $table->timestamps();

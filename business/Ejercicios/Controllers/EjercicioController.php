@@ -14,8 +14,8 @@ class EjercicioController extends Controller
     public function __construct(EjercicioService $es)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->ejercicioService = $es;
     }
 

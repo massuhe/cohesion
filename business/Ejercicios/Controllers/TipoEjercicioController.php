@@ -14,8 +14,8 @@ class TipoEjercicioController extends Controller
     public function __construct(TipoEjercicioService $tes)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->tipoEjercicioService = $tes;
     }
 

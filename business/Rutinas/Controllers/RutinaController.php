@@ -15,8 +15,8 @@ class RutinaController extends Controller
     public function __construct(RutinaService $rs)
     {
         $this->middleware('cors');
-        // $this->middleware('auth:api');
-        // $this->middleware('jwt.refresh');
+        $this->middleware('auth:api');
+        $this->middleware('jwt.refresh');
         $this->rutinaService = $rs;
     }
 

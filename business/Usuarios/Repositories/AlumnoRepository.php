@@ -40,14 +40,14 @@ class AlumnoRepository extends Repository
     public function listado()
     {
         $now = Carbon::now();
-        $monthFixed = strlen($now->month) === 2 ? $now->month : "0$month";
+        $month = str_pad($now->month, 2, '0', STR_PAD_LEFT);
         $deudores_query = 
         "SELECT deudas.alumno_id, GROUP_CONCAT(deudas.mes, '-', deudas.anio, ': ', deudas.importe_total - deudas.importe_pagado SEPARATOR '; ') as debe
          FROM (
              SELECT A.id as alumno_id, C.anio, C.mes, C.importe_total, SUM(P.importe) as importe_pagado
              FROM ALUMNOS A, CUOTAS C, PAGOS P
              WHERE A.id = C.alumno_id
-             AND CONCAT(C.anio, ' ', LPAD(C.mes, 2, '0')) <= '$now->year $monthFixed'
+             AND CONCAT(C.anio, ' ', LPAD(C.mes, 2, '0')) <= '$now->year $month'
              AND C.id = P.cuota_id
              GROUP BY A.id, C.anio, C.mes, C.importe_total
              HAVING C.importe_total - SUM(P.importe) > 0
